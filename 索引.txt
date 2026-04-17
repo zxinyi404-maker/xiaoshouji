@@ -1,0 +1,3785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="theme-color" content="#f8f8f8">
+    <!-- 1. 普通浏览器图标 -->
+    <link rel="icon" href="https://s41.ax1x.com/2026/02/06/pZotiBF.png">
+    <!-- 2. 【必须加】苹果 iPhone/iPad 专用图标 -->
+    <link rel="apple-touch-icon" href="https://s41.ax1x.com/2026/02/06/pZotiBF.png">
+   <!-- 3. 【必须加】PWA Web App Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <title>NN小手机</title>
+
+    <!-- 外部样式：已将内联样式拆分到 static/css/style.css -->
+    <link rel="stylesheet" href="static/css/style.css">
+
+    <!-- 字体图标 -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<!-- ============================================================ -->
+    <!-- 【顶部栏区域】 -->
+    <!-- ============================================================ -->
+
+    <!-- --- 1. 主界面相关 --- -->
+    <div class="top-bar" id="chat-top">
+        <div class="top-bar-title">NN小手机</div>
+        <button class="top-bar-right-btn" id="add-chat-btn">
+            <i class="fas fa-plus"></i>
+        </button>
+        <!-- 【新增】主页右上角 + 号下拉菜单 -->
+        <div class="chat-menu-dropdown" id="main-add-menu-dropdown" style="top: 40px; right: 10px; width: 140px;">
+            <div class="chat-menu-item" id="menu-new-chat-btn">
+                <i class="fas fa-user-plus" style="width: 20px; text-align: center; margin-right: 5px;"></i> 新建聊天
+            </div>
+            <div class="chat-menu-item" id="menu-new-group-btn">
+                <i class="fas fa-users" style="width: 20px; text-align: center; margin-right: 5px;"></i> 创建群聊
+            </div>
+        </div>
+    </div>
+
+    <div class="top-bar" id="contact-top" style="display: none;">
+        <div class="top-bar-title">API设置</div>
+    </div>
+
+    <div class="top-bar" id="discover-top" style="display: none;">
+        <div class="top-bar-title">发现</div>
+    </div>
+
+    <div class="top-bar" id="user-info-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">用户资料</div>
+    </div>
+
+    <!-- --- 2. 个人资料编辑相关 --- -->
+    <!-- 头像编辑 -->
+    <div class="top-bar" id="avatar-edit-top" style="display: none;">
+        <div class="top-bar-back">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">头像</div>
+        <button class="top-bar-right-btn" id="avatar-more-btn">
+            <i class="fas fa-ellipsis-v"></i>
+        </button>
+    </div>
+
+    <!-- 用户名编辑 -->
+    <div class="top-bar" id="name-edit-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">用户名</div>
+        <button class="top-bar-right-btn" id="name-save-btn">保存</button>
+    </div>
+
+    <!-- 状态/签名编辑 -->
+    <div class="top-bar" id="status-edit-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">状态</div>
+        <button class="top-bar-right-btn" id="status-save-btn">保存</button>
+    </div>
+
+    <!-- 性别编辑 -->
+    <div class="top-bar" id="gender-edit-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">性别</div>
+        <button class="top-bar-right-btn" id="gender-save-btn">保存</button>
+    </div>
+
+    <!-- 地区编辑 -->
+    <div class="top-bar" id="region-edit-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">地区</div>
+        <button class="top-bar-right-btn" id="region-save-btn">保存</button>
+    </div>
+
+    <!-- 聊天面具编辑 -->
+    <div class="top-bar" id="mask-edit-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">通用聊天面具</div>
+        <button class="top-bar-right-btn" id="mask-save-btn">保存</button>
+    </div>
+
+    <!-- --- 3. 系统设置与功能相关 --- -->
+    <!-- 设置主菜单 -->
+    <div class="top-bar" id="setting-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">设置</div>
+    </div>
+
+    <!-- 聊天 API 设置 -->
+    <div class="top-bar" id="chat-api-setting-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">聊天API设置</div>
+        <button class="top-bar-right-btn" id="chat-api-save-btn">保存</button>
+    </div>
+
+	<!-- 记忆配置顶部栏 -->
+	<div class="top-bar" id="memory-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">记忆配置</div>
+		<button class="top-bar-right-btn" id="memory-save-btn">保存</button>
+	</div>
+
+    <!-- 新建对话 -->
+    <div class="top-bar" id="new-chat-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">新建对话</div>
+        <button class="top-bar-right-btn" id="new-chat-save-btn">保存</button>
+    </div>
+	<!-- 新建群聊 -->
+	<div class="top-bar" id="new-group-top" style="display: none;">
+			<div class="top-bar-back" style="display: flex;">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="top-bar-title">创建群聊</div>
+			<button class="top-bar-right-btn" id="new-group-save-btn">创建</button>
+		</div>
+    <!-- 对话详情页顶部栏 -->
+    <div class="top-bar" id="chat-detail-top" style="display: none;">
+        <div class="top-bar-back" id="chat-back-btn" style="display: flex;"><i class="fas fa-chevron-left"></i></div>
+        <div class="top-bar-title" id="chat-detail-title-container">
+            <div class="top-bar-main-title" id="chat-detail-title">聊天</div>
+            <div class="top-bar-subtitle" id="chat-detail-status">在线</div>
+        </div>
+		<button class="top-bar-right-btn" id="chat-search-btn" style="right: 50px;"><i class="fas fa-search"></i></button>
+        <button class="top-bar-right-btn" id="chat-menu-btn"><i class="fas fa-plus"></i></button>
+        <div class="chat-menu-dropdown" id="chat-menu-dropdown">
+			<div class="chat-menu-item" id="mode-toggle-btn" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 10px;">
+			<div style="display: flex; align-items: center; min-width: 0;">
+				<i class="fas fa-comments" id="mode-icon" style="width: 18px; text-align: center; margin-right: 11px; font-size: 14px;"></i>
+				<span id="mode-text" style="font-size: 13px; white-space: nowrap;">线上模式</span>
+				</div>
+				<label class="switch" style="transform: scale(0.7); transform-origin: right center; margin: 0;">
+					<input type="checkbox" id="mode-checkbox" checked>
+					<span class="slider"></span>
+				</label>	
+			</div>
+			<div class="chat-menu-item" id="delay-toggle-btn" style="display: flex; align-items: center; justify-content: space-between; padding: 12px 10px;">
+				<div style="display: flex; align-items: center; min-width: 0;">
+					<i class="fas fa-keyboard" style="width: 18px; text-align: center; margin-right: 11px; font-size: 14px;"></i>
+					<span style="font-size: 13px; white-space: nowrap;">打字延时</span>
+				</div>
+				<label class="switch" style="transform: scale(0.7); transform-origin: right center; margin: 0;">
+					<input type="checkbox" id="delay-checkbox" checked>
+					<span class="slider"></span>
+				</label>	
+			</div>
+			<div class="chat-menu-item" id="menu-life-events-btn"><i class="fas fa-file-alt"></i> 人生档案</div>
+			<div class="chat-menu-item" id="menu-gift-list-btn"><i class="fas fa-gift"></i> 礼物清单</div>
+			<div class="chat-menu-item" id="menu-ltm-btn"><i class="fas fa-brain"></i> 长期记忆</div>
+			<div class="chat-menu-item" id="menu-chat-settings-btn"><i class="fas fa-cog"></i> 聊天设置</div>
+			<div class="chat-menu-item" id="menu-quick-reroll-btn"><i class="fas fa-sync-alt"></i> 快速重roll</div>
+            <div class="chat-menu-item" id="menu-batch-delete-btn"><i class="fas fa-check-circle"></i> 批量删除</div>
+			<div class="chat-menu-item" id="menu-block-user-btn" style="color: #ff3b30;"><i class="fas fa-ban"></i> <span id="block-btn-text">拉黑</span></div>
+			<div class="chat-menu-item" id="menu-clear-history-btn"><i class="fas fa-trash"></i> 清空记录</div>	
+        </div>
+    </div>
+    <!-- 【新增】外卖卡片悬浮容器 (放在聊天页面外面，确保不随消息滚动) -->
+	<div id="delivery-cards-container"></div>
+    <div class="chat-menu-dropdown" id="chat-card-action-menu" style="display: none; width: 120px;">
+        <div class="chat-menu-item" data-action="pin">
+            <i class="fas fa-thumbtack" style="width: 20px;"></i>
+            <span class="pin-text">置顶</span>
+        </div>
+        <div class="chat-menu-item" data-action="delete" style="color: #ff3b30;">
+            <i class="fas fa-trash" style="width: 20px;"></i>
+            <span>删除</span>
+        </div>
+    </div>
+	<!-- 群聊设置顶部栏 -->
+    <div class="top-bar" id="group-setting-top" style="display: none;">
+			<div class="top-bar-back" style="display: flex;">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="top-bar-title">群聊设置</div>
+			<button class="top-bar-right-btn" id="group-setting-save-btn">保存</button>
+		</div>
+	<!-- 聊天设置顶部栏 (新增) -->
+    <div class="top-bar" id="chat-setting-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">聊天设置</div>
+        <button class="top-bar-right-btn" id="chat-setting-save-btn">保存</button>
+    </div>
+	<!-- 【新增】搜索聊天记录顶部栏 -->
+	<div class="top-bar" id="chat-search-top" style="display: none;">
+		<div class="top-bar-back" id="chat-search-back-btn" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">查找聊天记录</div>
+	</div>
+	<!-- 【新增】人生档案页顶部栏 -->
+    <div class="top-bar" id="life-events-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">人生档案</div>
+        <button class="top-bar-right-btn" id="life-events-save-btn">保存</button>
+    </div>
+	
+	<!-- 【新增】长期记忆编辑页顶部栏 -->
+    <div class="top-bar" id="ltm-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">长期记忆</div>
+        <button class="top-bar-right-btn" id="ltm-save-btn">保存</button>
+    </div>
+	
+	<!-- 【新增】语音 API 设置顶部栏 -->
+	<div class="top-bar" id="voice-api-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">语音API设置</div>
+		<button class="top-bar-right-btn" id="voice-api-save-btn">保存</button>
+	</div>
+	<!-- 其他API设置顶部栏 -->
+	<div class="top-bar" id="other-api-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">其他API设置</div>
+		<button class="top-bar-right-btn" id="other-api-save-btn">保存</button>
+	</div>
+	<!-- 【新增】天气共享顶部栏 -->
+	<div class="top-bar" id="weather-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">后台天气共享</div>
+		<button class="top-bar-right-btn" id="weather-save-btn">保存</button>
+	</div>
+	<!-- 购物页面顶部栏 -->
+	<div class="top-bar" id="shopping-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">NN商城</div>
+	</div>
+	
+	<!-- 【新增】日记列表顶部栏 -->
+	<div class="top-bar" id="diary-list-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">手账日记</div>
+	</div>
+
+	<!-- 【新增】日记详情顶部栏 -->
+	<div class="top-bar" id="diary-detail-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title" id="diary-detail-title">日记</div>
+		<button class="top-bar-right-btn" id="diary-refresh-btn" style="right: 15px;">
+			<i class="fas fa-sync-alt"></i>
+		</button>
+	</div>
+	<!-- 【新增】经期记录顶部栏 -->
+	<div class="top-bar" id="period-tracking-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">经期记录与预测</div>
+		<button class="top-bar-right-btn" id="period-save-btn">保存</button>
+	</div>
+	<!-- 查手机列表页顶部栏 -->
+    <div class="top-bar" id="check-phone-list-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">查手机</div>
+    </div>
+
+    <!-- 查手机详情页顶部栏 -->
+    <div class="top-bar" id="check-phone-detail-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title" id="check-phone-title">TA的手机</div>
+        <button class="top-bar-right-btn" id="check-phone-refresh-btn" style="right: 15px;">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+    </div>
+	<!-- 反向查手机设置页顶部栏 -->
+    <div class="top-bar" id="rcp-config-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">反向查手机设置</div>
+    </div>
+
+    <!-- 反向查手机详情页顶部栏 -->
+    <div class="top-bar" id="rcp-detail-top" style="display: none;">
+        <div class="top-bar-back" id="rcp-back-btn" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title" id="rcp-title">TA正在查你的手机</div>
+    </div>
+	<!-- 【新增】Ta的一天 列表顶部栏 -->
+	<div class="top-bar" id="their-day-list-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">Ta的一天</div>
+	</div>
+	<!-- 【新增】Ta的一天 详情顶部栏 -->
+	<div class="top-bar" id="their-day-detail-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title" id="their-day-detail-title">TA的一天</div>
+		<button class="top-bar-right-btn" id="their-day-refresh-btn" style="right: 15px;">
+			<i class="fas fa-sync-alt"></i>
+		</button>
+	</div>
+	<!-- 【新增】赛博求签 列表顶部栏 -->
+	<div class="top-bar" id="cyber-fortune-list-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">赛博求签</div>
+	</div>
+
+	<!-- 【新增】赛博求签 详情顶部栏 -->
+	<div class="top-bar" id="cyber-fortune-detail-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title" id="cyber-fortune-detail-title">赛博求签</div>
+	</div>
+	<!-- 【新增】游戏开黑 列表顶部栏 -->
+	<div class="top-bar" id="game-coop-list-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">选择双排队友</div>
+	</div>
+
+	<!-- 【新增】FPS 游戏页面 顶部栏 -->
+	<div class="top-bar" id="fps-game-top" style="display: none;">
+		<div class="top-bar-back" id="fps-game-back-btn" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title" id="fps-game-title">FPS大乱斗</div>
+	</div>
+	<!-- ============================================================ -->
+	<!-- 【新增】论坛相关顶部栏 -->
+	<!-- ============================================================ -->
+	
+	<!-- 1. 论坛主页顶部栏 -->
+	<div class="top-bar" id="forum-main-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">NN论坛</div>
+		<button class="top-bar-right-btn" id="forum-refresh-btn" style="right: 15px;">
+			<i class="fas fa-sync-alt"></i>
+		</button>
+	</div>
+
+	<!-- 2. 版块管理列表顶部栏 -->
+	<div class="top-bar" id="forum-manage-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">版块管理</div>
+	</div>
+
+	<!-- 3. 添加/编辑版块顶部栏 -->
+	<div class="top-bar" id="forum-board-edit-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title" id="forum-board-edit-title">添加版块</div>
+		<button class="top-bar-right-btn" id="forum-board-save-btn">保存</button>
+	</div>
+
+	<!-- 4. 帖子详情页顶部栏 -->
+	<div class="top-bar" id="forum-post-detail-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">帖子详情</div>
+		<!-- 【新增】帖子详情右上角刷新按钮 -->
+		<button class="top-bar-right-btn" id="forum-post-refresh-btn" style="right: 15px;">
+			<i class="fas fa-sync-alt"></i>
+		</button>
+	</div>
+	<!-- 5. 发帖面具顶部栏 -->
+	<div class="top-bar" id="forum-mask-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">发帖面具</div>
+		<button class="top-bar-right-btn" id="forum-mask-save-btn">保存</button>
+	</div>
+
+	<!-- 6. 用户发帖顶部栏 -->
+	<div class="top-bar" id="forum-create-post-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">发布新帖</div>
+		<button class="top-bar-right-btn" id="forum-do-post-btn" style="color: #07c160; font-weight: bold;">发布</button>
+	</div>
+	<!-- ============================================================ -->
+    <!-- 【顶部栏区域 - 世界书相关】 -->
+    <!-- ============================================================ -->
+
+    <!-- 世界书管理 - 列表页顶部栏 -->
+    <div class="top-bar" id="worldbook-list-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">世界书管理</div>
+        <button class="top-bar-right-btn" id="add-worldbook-btn">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <!-- 世界书编辑/新增 - 详情页顶部栏 -->
+    <div class="top-bar" id="worldbook-edit-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title" id="wb-edit-page-title">新增世界书</div>
+        <button class="top-bar-right-btn" id="worldbook-save-btn">保存</button>
+    </div>
+	
+	<!-- 表情管理顶部栏 -->
+	<div class="top-bar" id="emoticon-manage-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">表情管理</div>
+		<button class="top-bar-right-btn" id="go-add-emoticon-btn">
+			<i class="fas fa-plus"></i>
+		</button>
+	</div>
+
+	<!-- 添加表情顶部栏 -->
+	<div class="top-bar" id="emoticon-add-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">添加表情包</div>
+		<button class="top-bar-right-btn" id="save-emoticon-btn">保存</button>
+	</div>
+	
+	<!-- 【新增】识图 API 设置顶部栏 -->
+	<div class="top-bar" id="vision-api-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">识图API设置</div>
+		<button class="top-bar-right-btn" id="vision-api-save-btn">保存</button>
+	</div>
+	<!-- 【新增】心动遇见 顶部栏 -->
+	<div class="top-bar" id="meet-form-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">心动遇见</div>
+	</div>
+	<div class="top-bar" id="meet-result-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">匹配结果</div>
+	</div>
+	<!-- 朋友圈/论坛 API 设置顶部栏 -->
+	<div class="top-bar" id="social-api-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">朋友圈/论坛API</div>
+		<button class="top-bar-right-btn" id="social-api-save-btn">保存</button>
+	</div>	
+	
+	<!-- 【新增】朋友圈页面顶部栏 -->
+	<div class="top-bar" id="moments-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<!-- 没有标题 -->
+		<button class="top-bar-right-btn" id="post-moment-btn">
+			<i class="fas fa-camera"></i>
+		</button>
+	</div>
+	
+	<!-- 【新增】朋友圈设置页顶部栏 -->
+	<div class="top-bar" id="moments-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">朋友圈设置</div>
+		<button class="top-bar-right-btn" id="moments-setting-save-btn">保存</button>
+	</div>
+	<!-- 【新增】发布朋友圈顶部栏 -->
+    <div class="top-bar" id="post-moment-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">发布朋友圈</div>
+        <button class="top-bar-right-btn" id="do-post-moment-btn" style="font-weight: bold; color: #07c160;">发布</button>
+    </div>
+	<!-- 【新增】自定义美化顶部栏 -->
+	<div class="top-bar" id="custom-style-top" style="display: none;">
+        <div class="top-bar-back" style="display: flex;">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="top-bar-title">自定义美化</div>
+        <button class="top-bar-right-btn" id="custom-style-save-btn">保存</button>
+    </div>
+	<!-- 【新增】收藏页面顶部栏 -->
+	<div class="top-bar" id="favorites-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">收藏</div>
+		<button class="top-bar-right-btn" id="favorites-save-btn">保存</button>
+	</div>
+	<!-- 【新增】主动消息设置顶部栏 -->
+	<div class="top-bar" id="active-msg-setting-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">主动消息设置</div>
+		<button class="top-bar-right-btn" id="active-msg-save-btn">保存</button>
+	</div>
+	<div class="top-bar" id="their-day-list-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">Ta的一天</div>
+	</div>
+    <!-- ============================================================ -->
+    <!-- 【核心内容区】-->
+    <!-- ============================================================ -->
+    <div class="content-area" id="main-content-area">
+        <!-- 1. 对话页面 -->
+        <div class="page active" id="chat-page">
+            <div class="page-content">
+                <div id="chat-list-container"></div>
+            </div>
+			<div class="bottom-nav-spacer"></div>
+        </div>
+
+        <!-- 2. 通讯录页面 -->
+        <div class="page" id="contact-page">
+            <div class="page-content">
+                <div class="menu-container">
+                    <div class="menu-btn" id="chat-api-setting-btn">
+                        <div class="menu-btn-left"><i class="fas fa-comment-dots icon"></i><span class="menu-btn-text">聊天api设置</span></div><i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="menu-btn" id="social-api-setting-btn"><div class="menu-btn-left"><i class="fas fa-images icon"></i><span class="menu-btn-text">朋友圈/论坛 api设置</span></div><i class="fas fa-chevron-right menu-btn-arrow"></i></div>
+                    <div class="menu-btn" id="vision-api-setting-btn">
+					<div class="menu-btn-left"><i class="fas fa-search icon"></i><span class="menu-btn-text">识图api设置</span></div><i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+                    <div class="menu-btn" id="voice-api-setting-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-microphone icon"></i>
+							<span class="menu-btn-text">语音api设置</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+                    <div class="menu-btn" id="other-api-setting-btn">
+					<div class="menu-btn-left"><i class="fas fa-cogs icon"></i><span class="menu-btn-text">其他api设置</span></div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<!-- 【新增】记忆设置选项 (图标选用了时钟) -->
+					<div class="menu-btn" id="memory-setting-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-clock icon"></i>
+							<span class="menu-btn-text">记忆设置</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<!-- 【新增】天气共享设置 -->
+					<div class="menu-btn" id="weather-setting-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-cloud-sun icon"></i>
+							<span class="menu-btn-text">后台天气共享</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<!-- 【新增】主动消息设置 -->
+					<div class="menu-btn" id="active-msg-setting-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-paper-plane icon"></i>
+							<span class="menu-btn-text">主动消息设置</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+                </div>
+            </div>
+			<div class="bottom-nav-spacer"></div>
+        </div>
+        <!-- 3. 发现页面 -->
+        <div class="page" id="discover-page">
+            <div class="page-content">
+                <div class="menu-container">
+                    <div class="menu-btn" id="moments-entry-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-camera icon"></i>
+                            <span class="menu-btn-text">朋友圈</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="menu-btn" id="forum-entry-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-comments icon"></i>
+							<span class="menu-btn-text">论坛</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+                    <div class="menu-btn" id="shopping-entry-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-shopping-cart icon"></i>
+							<span class="menu-btn-text">购物</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="meet-entry-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-heartbeat icon"></i>
+                            <span class="menu-btn-text">心动遇见 (AI定制伴侣)</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="their-day-entry-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-calendar-day icon"></i>
+							<span class="menu-btn-text">Ta的一天</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="cyber-fortune-entry-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-hand-sparkles icon" style="color: #ff7e5f;"></i>
+							<span class="menu-btn-text">赛博求签</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="diary-entry-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-book-open icon"></i>
+							<span class="menu-btn-text">手账日记</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="period-entry-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-calendar-alt icon" ></i>
+							<span class="menu-btn-text">经期记录</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="game-coop-entry-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-gamepad icon"></i>
+							<span class="menu-btn-text">游戏开黑 (FPS大乱斗)</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="check-phone-entry-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-mobile-alt icon" ></i>
+                            <span class="menu-btn-text">查手机</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+					<div class="menu-btn" id="rcp-entry-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-mobile-alt icon"></i>
+                            <span class="menu-btn-text">反向查手机</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                </div>				
+            </div>
+			<div class="bottom-nav-spacer"></div>
+        </div>
+
+        <!-- 4. 我的页面 -->
+        <div class="page" id="me-page">
+            <div class="page-content">
+                <div class="menu-container">
+                    <div class="user-info-card">
+                        <div style="display: flex; align-items: center;">
+                            <div class="user-avatar" id="main-user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-text-area">
+                                <div class="user-name" id="main-user-name">NN小手机用户</div>
+                                <div class="user-status" id="me-page-status">状态：在线</div>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="menu-btn" id="my-wallet-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-wallet icon"></i>
+                            <span class="menu-btn-text">钱包</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="menu-btn" id="my-favorites-btn">
+						<div class="menu-btn-left">
+							<i class="fas fa-star icon"></i>
+							<span class="menu-btn-text">收藏</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="user-mask-manage-entry-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-id-card icon"></i>
+                            <span class="menu-btn-text">用户面具预设管理</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="menu-btn" id="my-emoticon-btn"> 
+						<div class="menu-btn-left">
+							<i class="fas fa-face-smile icon"></i>
+							<span class="menu-btn-text">表情管理</span>
+						</div>
+						<i class="fas fa-chevron-right menu-btn-arrow"></i>
+					</div>
+					<div class="menu-btn" id="world-role-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-book icon"></i>
+                            <span class="menu-btn-text">世界书</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="menu-btn" id="setting-menu-btn">
+                        <div class="menu-btn-left">
+                            <i class="fas fa-cog icon"></i>
+                            <span class="menu-btn-text">设置</span>
+                        </div>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                </div>
+            </div>
+			<div class="bottom-nav-spacer"></div>
+        </div>
+
+        <!-- 5. 用户资料页面 -->
+        <div class="page" id="user-info-page">
+            <div class="page-content">
+                <div class="menu-container">
+                    <div class="user-info-edit-btn" id="avatar-edit-btn">
+                        <span class="edit-btn-label">头像</span>
+                        <div style="display: flex; align-items: center; flex: 1; justify-content: flex-end;">
+                            <div class="avatar-preview" id="user-avatar-preview">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="user-info-edit-btn" id="name-edit-btn">
+                        <span class="edit-btn-label">名字</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex: 1;">
+                            <span class="edit-btn-value" id="user-name-value">NN小手机用户</span>
+                            <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="user-info-edit-btn" id="status-edit-btn">
+                        <span class="edit-btn-label">状态</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex: 1;">
+                            <span class="edit-btn-value" id="user-status-value">在线</span>
+                            <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="user-info-edit-btn" id="gender-edit-btn">
+                        <span class="edit-btn-label">性别</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex: 1;">
+                            <span class="edit-btn-value" id="user-gender-value">未设置</span>
+                            <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="user-info-edit-btn" id="region-edit-btn">
+                        <span class="edit-btn-label">地区</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex: 1;">
+                            <span class="edit-btn-value" id="user-region-value">未设置</span>
+                            <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                        </div>
+                    </div>
+                    <div class="user-info-edit-btn" id="mask-edit-btn">
+                        <span class="edit-btn-label">通用聊天面具</span>
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex: 1;">
+                            <span class="edit-btn-value" id="user-mask-value">未设置</span>
+                            <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 其他编辑页面 -->
+        <div class="page" id="avatar-edit-page">
+            <div class="page-content">
+                <div class="avatar-big-preview" id="avatar-big-preview">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <div class="page" id="name-edit-page">
+            <div class="page-content">
+                <input type="text" class="name-input" id="name-edit-input" placeholder="请输入用户名">
+            </div>
+        </div>
+        <div class="page" id="status-edit-page">
+            <div class="page-content">
+                <input type="text" class="name-input" id="status-edit-input" placeholder="请输入状态">
+            </div>
+        </div>
+        <div class="page" id="gender-edit-page">
+            <div class="page-content">
+                <input type="text" class="name-input" id="gender-edit-input" placeholder="请输入性别">
+            </div>
+        </div>
+        <div class="page" id="region-edit-page">
+            <div class="page-content">
+                <input type="text" class="name-input" id="region-edit-input" placeholder="请输入地区">
+            </div>
+        </div>
+        <div class="page" id="mask-edit-page">
+            <div class="page-content">
+                <textarea class="mask-input" id="mask-edit-input" placeholder="请输入通用聊天面具内容"></textarea>
+            </div>
+        </div>
+
+        <!-- 7. 设置页面 -->
+        <div class="page" id="setting-page">
+            <div class="page-content">
+                <div class="menu-container">
+					<div class="setting-btn" id="user-manual-btn">
+                        <span class="setting-btn-text">使用说明</span>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="setting-btn" id="custom-style-btn">
+                        <span class="setting-btn-text">自定义美化</span>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="setting-btn" id="export-cache-btn">
+                        <span class="setting-btn-text">导出备份文件</span>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="setting-btn" id="import-backup-btn">
+                        <span class="setting-btn-text">导入备份文件</span>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="setting-btn" id="cloud-setting-entry-btn">
+                        <span class="setting-btn-text">云端同步 (WebDAV)</span>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                    <div class="setting-btn" id="clear-cache-btn">
+                        <span class="setting-btn-text">清空缓存数据</span>
+                        <i class="fas fa-chevron-right menu-btn-arrow"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- 7.5 自定义美化页面 (已修复结构) -->
+		<div class="page" id="custom-style-page">
+			<div class="page-content">
+				
+				<div class="form-section">
+					<label class="form-label" style="font-weight: bold; margin-bottom: 12px;">通用聊天背景</label>
+					
+					<div style="display: flex; gap: 15px; margin-bottom: 15px;">
+						<div class="character-avatar-uploader" id="global-bg-uploader" style="width: 100px; height: 140px; border-radius: 8px; flex-shrink: 0;">
+							<div style="display: flex; flex-direction: column; align-items: center; color: #999;">
+								<i class="fas fa-image" style="font-size: 24px; margin-bottom: 5px;"></i>
+								<span style="font-size: 12px;">点击上传</span>
+							</div>
+							<img id="global-bg-preview" style="display: none; width: 100%; height: 100%; object-fit: cover; border-radius: 6px;">
+						</div>
+
+						<div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+							<label class="form-label" style="font-size: 13px;">图片链接 (URL)</label>
+							<input type="text" id="global-bg-url-input" class="form-input" placeholder="https://..." style="margin-bottom: 10px;">
+							<div style="font-size: 12px; color: #999; line-height: 1.4;">
+								设置后将应用于所有未单独设置背景的对话。支持上传本地图片或输入网络图片链接。
+							</div>
+							<button class="batch-btn" id="clear-global-bg-btn" style="margin-top: 8px; color: #ff3b30; text-align: left; padding: 0; font-size: 13px;">
+								<i class="fas fa-trash-alt"></i> 清除当前背景
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+				
+				<div class="form-section">
+					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+						<label class="form-label" style="font-weight: bold; margin: 0;">全量美化预设</label>
+						<button id="manage-style-presets-btn" style="font-size: 12px; color: #576b95; background: none; border: none; padding: 5px;">
+							<i class="fas fa-cog"></i> 管理预设
+						</button>
+					</div>
+					<div style="position: relative;">
+						<select id="style-preset-selector" class="form-input" style="appearance: none; -webkit-appearance: none; padding-right: 30px;">
+							<option value="">-- 选择一个预设自动填入 --</option>
+						</select>
+						<i class="fas fa-chevron-down" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #999; pointer-events: none;"></i>
+					</div>
+					<div style="font-size: 12px; color: #999; margin-top: 5px;">
+						选择预设后，下方的 CSS 代码框将被自动覆盖。
+					</div>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label" style="font-weight: bold;">全局美化 CSS 替换</label>
+					<div style="font-size: 12px; color: #888; margin-bottom: 10px;">
+						在此输入 CSS 代码可覆盖整个 App 的样式（如字体、颜色、边框等）。
+					</div>
+					<textarea id="custom-css-global" class="form-textarea code-input" style="height: 150px;" placeholder="/* 例如: body { font-family: '宋体'; } */"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label" style="font-weight: bold;">气泡美化 CSS</label>
+					<div style="font-size: 12px; color: #888; margin-bottom: 10px;">
+						针对聊天气泡的专项样式覆盖。
+						<br>左侧气泡类名: <code>.chat-msg-row.left .msg-bubble</code>
+						<br>右侧气泡类名: <code>.chat-msg-row.right .msg-bubble</code>
+					</div>
+					<textarea id="custom-css-bubble" class="form-textarea code-input" style="height: 150px;" placeholder="/* 例如: .msg-bubble { border-radius: 20px; } */"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label" style="font-weight: bold;">字体与显示</label>
+					
+					<div style="margin-bottom: 15px;">
+						<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+							<label class="form-label" style="font-size: 13px;">全局字体大小 (%)</label>
+							<span id="font-size-val" style="font-size: 12px; color: #07c160;">100%</span>
+						</div>
+						<div style="display: flex; align-items: center; gap: 10px;">
+							<i class="fas fa-font" style="font-size: 12px; color: #999;"></i>
+							<input type="range" id="global-font-size-range" min="80" max="150" value="100" step="5" style="flex: 1;">
+							<i class="fas fa-font" style="font-size: 18px; color: #333;"></i>
+						</div>
+					</div>
+
+					<hr style="border: none; border-top: 1px dashed #eee; margin: 15px 0;">
+
+					<div style="margin-bottom: 10px;">
+						<label class="form-label" style="font-size: 13px;">自定义字体链接 (URL)</label>
+						<input type="text" id="custom-font-url" class="form-input" placeholder="例如: https://example.com/font.woff2">
+						<div style="font-size: 12px; color: #999; margin-top: 5px; line-height: 1.5;">
+							支持 .woff2 / .ttf 格式直链。<br>
+							<i class="fas fa-exclamation-circle"></i> 注意：请确保该链接允许跨域访问 (CORS)，否则无法加载。
+						</div>
+						<button class="batch-btn" id="clear-font-btn" style="margin-top: 8px; color: #ff3b30; text-align: left; padding: 0; font-size: 13px;">
+							<i class="fas fa-trash-alt"></i> 恢复默认字体
+						</button>
+					</div>
+				</div>
+
+				<hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+
+				<div style="padding-bottom: 30px;">
+					<button id="save-style-preset-btn" class="batch-btn" style="width: 100%; background-color: #f2f2f2; color: #333; font-weight: bold;">
+						<i class="fas fa-save" style="margin-right: 5px;"></i> 将当前配置保存为新预设
+					</button>
+				</div>
+
+				<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+					<label class="form-label" style="font-weight: bold; margin-bottom: 10px;">美化配置管理</label>
+					<div style="font-size: 12px; color: #999; margin-bottom: 10px;">
+						您可以将当前的美化设置（含所有预设）导出为文件，或导入他人的配置。
+					</div>
+					<div style="display: flex; gap: 10px;">
+						<button id="export-style-btn" class="batch-btn" style="flex: 1; background-color: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb;">
+							<i class="fas fa-file-export"></i> 导出配置
+						</button>
+						<button id="import-style-btn" class="batch-btn" style="flex: 1; background-color: #fff3e0; color: #ef6c00; border: 1px solid #ffe0b2;">
+							<i class="fas fa-file-import"></i> 导入配置
+						</button>
+					</div>
+					<!-- 隐藏的文件输入框 -->
+					<input type="file" id="import-style-file" accept=".json" style="display: none;">
+				</div>
+
+				<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+					<div style="margin-top: 15px;">
+						<button id="reset-style-btn" class="batch-btn" style="width: 100%; background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a;">
+							<i class="fas fa-trash-restore"></i> 初始化美化配置 (恢复默认)
+						</button>
+						<div style="font-size: 12px; color: #999; margin-top: 5px; text-align: center;">
+							此操作将清空当前生效的所有自定义样式和背景，但保留您的预设列表。
+						</div>	
+					</div>
+				</div>
+			</div> 
+		</div> 
+		<!-- ============================================================ -->
+		<!-- 【查手机专属样式 (已从 head 移至此处)】 -->
+		<!-- ============================================================ -->
+		<style id="check-phone-styles">
+			.phone-simulator-container { width: 100%; height: calc(100vh - 200px); border-radius: 24px; border: 6px solid #333; background: #000; position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.2); display: flex; flex-direction: column; }
+			.phone-screen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; background-position: center; display: none; flex-direction: column; z-index: 1; }
+			.phone-screen.active { display: flex; }
+			.screen-lock { background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); color: white; align-items: center; justify-content: center; z-index: 10; }
+			.lock-time { font-size: 48px; font-weight: 300; margin-bottom: 50px; }
+			.lock-input { background: transparent; border: none; border-bottom: 2px solid #fff; color: #fff; font-size: 24px; text-align: center; width: 60%; margin-bottom: 20px; outline: none; letter-spacing: 5px;}
+			.lock-input::placeholder { color: rgba(255,255,255,0.3); font-size: 16px; letter-spacing: normal;}
+			.lock-btn { background: #07c160; color: #fff; border: none; padding: 10px 30px; border-radius: 20px; font-size: 16px; }
+			.screen-home { z-index: 5; }
+			.app-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; padding: 30px 15px; margin-top: auto; margin-bottom: 20px;}
+			.app-icon { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+			.app-icon-bg { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; margin-bottom: 5px; }
+			.app-icon span { color: white; font-size: 12px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+			.screen-app { background: #f5f5f5; z-index: 20; }
+			.app-header { height: 44px; background: #fff; display: flex; align-items: center; padding: 0 15px; border-bottom: 1px solid #eee; font-weight: bold; position: relative;}
+			.app-back { position: absolute; left: 15px; font-size: 18px; color: #333; cursor: pointer;}
+			.app-title { flex: 1; text-align: center; }
+			.app-content { flex: 1; overflow-y: auto; padding: 10px; }
+			.reaction-area { display: flex; padding: 15px; align-items: flex-start; gap: 10px; background: #fff; border-bottom: 1px solid #eee; }
+			.reaction-avatar { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; background: #eee; flex-shrink: 0; }
+			.reaction-avatar img { width: 100%; height: 100%; object-fit: cover; }
+			.reaction-bubble { background: #f0f0f0; padding: 10px 15px; border-radius: 0 15px 15px 15px; font-size: 14px; color: #333; line-height: 1.4; position: relative; flex: 1;}
+			.reaction-bubble::before { content: ''; position: absolute; left: -8px; top: 0; border-width: 0 8px 10px 0; border-style: solid; border-color: transparent #f0f0f0 transparent transparent; }
+			/* --- 锁屏密码圆点显示 --- */
+			.pin-display { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; height: 20px; }
+			.pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.6); background: transparent; transition: all 0.2s; }
+			.pin-dot.filled { background: #fff; border-color: #fff; }
+
+			/* --- 锁屏数字键盘 --- */
+			.pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px 30px; margin-bottom: 20px; }
+			.pin-key { width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.15); color: #fff; font-size: 28px; font-weight: 300; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px); transition: background 0.1s; margin: 0 auto; user-select: none; -webkit-user-select: none;}
+			.pin-key:active { background: rgba(255,255,255,0.4); }
+			.pin-key.action-key { font-size: 16px; background: transparent; }
+			.pin-key.action-key:active { background: rgba(255,255,255,0.1); }
+
+			/* --- 错误震动动画 --- */
+			@keyframes shake-error {
+				0%, 100% { transform: translateX(0); }
+				20%, 60% { transform: translateX(-10px); }
+				40%, 80% { transform: translateX(10px); }
+			}
+			.shake-anim { animation: shake-error 0.4s ease-in-out; }
+			/* --- 新增：手机状态栏样式 --- */
+			.sim-status-bar {
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				height: 24px;
+				background: rgba(0, 0, 0, 0.4); /* 半透明黑色遮罩 */
+				z-index: 100;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding: 0 15px;
+				color: #fff;
+				font-size: 12px;
+				backdrop-filter: blur(2px);
+				pointer-events: none; /* 防止遮挡点击 */
+			}
+
+			/* --- 覆盖原有的 app-header，为其增加顶部内边距，避开状态栏 --- */
+			.app-header { 
+				height: 68px; /* 原44px + 状态栏24px */
+				background: #fff; 
+				display: flex; 
+				align-items: center; 
+				padding: 24px 15px 0 15px; /* 顶部留出24px给状态栏 */
+				border-bottom: 1px solid #eee; 
+				font-weight: bold; 
+				position: relative;
+				box-sizing: border-box;
+			}
+			.app-back { 
+				position: absolute; 
+				left: 15px; 
+				bottom: 13px; /* 改为贴底定位对齐 */
+				font-size: 18px; 
+				color: #333; 
+				cursor: pointer;
+			}
+			/* 各APP专属样式表增强版 */
+			.sim-sms-item { background: #fff; padding: 10px; border-radius: 8px; margin-bottom: 10px; display:flex; flex-direction:column;}
+			
+			/* 微信列表与聊天界面 */
+			.sim-wechat-item { display: flex; margin-bottom: 15px; align-items: center; background: #fff; padding: 10px; border-radius: 8px; cursor: pointer;}
+			.sim-wechat-item .avatar { width: 40px; height: 40px; border-radius: 4px; background: #07c160; color:#fff; display:flex; align-items:center; justify-content:center; margin-right: 10px; overflow: hidden;}
+			.sim-wechat-item .avatar img { width: 100%; height: 100%; object-fit: cover; }
+			.sim-wechat-item .info { flex: 1; overflow: hidden; }
+			.sim-chat-bubble-row { display: flex; margin-bottom: 15px; align-items: flex-start; }
+			.sim-chat-bubble-row.right { flex-direction: row-reverse; }
+			.sim-chat-bubble-row .avatar { width: 36px; height: 36px; border-radius: 4px; background:#ddd; margin: 0 10px; display:flex; align-items:center; justify-content:center; overflow: hidden; flex-shrink:0;}
+			.sim-chat-bubble-row .avatar img { width: 100%; height: 100%; object-fit: cover;}
+			.sim-chat-bubble { max-width: 70%; padding: 8px 12px; border-radius: 8px; font-size: 14px; word-break: break-all; line-height: 1.4;}
+			.sim-chat-bubble-row.left .sim-chat-bubble { background: #fff; color: #333; border: 1px solid #eee; }
+			.sim-chat-bubble-row.right .sim-chat-bubble { background: #95ec69; color: #333; }
+
+			.sim-tiktok-item { background: #000; border-radius: 8px; margin-bottom: 10px; position:relative; color:#fff; padding: 10px; display:flex; flex-direction:column;}
+			.sim-tiktok-comment { background: rgba(255,255,255,0.1); border-radius: 6px; padding: 8px; margin-top: 10px; font-size: 12px;}
+			
+			/* 相册改为两列，支持点击翻转 */
+			.sim-gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+			.sim-gallery-item { aspect-ratio: 1; background: #ddd; border-radius: 8px; position: relative; cursor: pointer; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1);}
+			.sim-gallery-item .icon-view { position: absolute; inset: 0; display:flex; flex-direction:column; align-items:center; justify-content:center; color: #888; transition: opacity 0.2s;}
+			.sim-gallery-item .text-view { position: absolute; inset: 0; background: rgba(0,0,0,0.85); color: #fff; padding: 15px 12px; font-size: 12px; text-align: left; opacity: 0; transition: opacity 0.2s; overflow-y:auto; display: block; box-sizing: border-box; line-height: 1.5; }
+			.sim-gallery-item.show-text .icon-view { opacity: 0; pointer-events: none;}
+			.sim-gallery-item.show-text .text-view { opacity: 1; }
+
+			/* 钱包卡片 */
+			.sim-wallet-card { background: linear-gradient(135deg, #ff7e5f, #feb47b); color: white; border-radius: 8px; padding: 15px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(255,126,95,0.3);}
+		</style>
+		<!-- 【新增】查手机角色列表页面 -->
+        <div class="page" id="check-phone-list-page">
+            <div class="page-content" id="check-phone-list-container">
+                <!-- JS 动态渲染 -->
+            </div>
+        </div>
+
+        <!-- 【新增】查手机模拟器详情页面 -->
+        <div class="page" id="check-phone-detail-page">
+            <div class="page-content" style="padding: 0; background: #fff; display: flex; flex-direction: column; height: 100%;">
+                
+                <!-- 顶部角色互动反应区 -->
+                <div class="reaction-area">
+                    <div class="reaction-avatar" id="cp-reaction-avatar"><i class="fas fa-user"></i></div>
+                    <div class="reaction-bubble" id="cp-reaction-text">
+                        你...你要看我的手机？
+                    </div>
+                </div>
+
+                <!-- 手机模拟器主体 -->
+                <div style="padding: 15px; flex: 1;">
+                    <div class="phone-simulator-container">
+                        <!-- 手机状态栏 (放在容器最顶端) -->
+						<div class="sim-status-bar" id="cp-status-bar">
+							<!-- 左侧：运营商与网络 (z-index保证不被遮挡) -->
+							<div style="display: flex; align-items: center; z-index: 10;">
+								<span style="font-weight: 500; letter-spacing: 0.5px;">NNCC</span>
+								<i class="fas fa-signal" style="margin-left: 5px; font-size: 10px;"></i>
+								<span style="font-size: 10px; margin-left: 2px; font-weight: bold; transform: scale(0.85);">5G</span>
+								<i class="fas fa-wifi" style="margin-left: 5px; font-size: 10px;"></i>
+							</div>
+
+							<!-- 中间：时钟 (绝对定位，强制在整个状态栏正中间) -->
+							<div id="cp-status-time" style="font-weight: bold; letter-spacing: 1px; position: absolute; left: 50%; transform: translateX(-50%); z-index: 5;">
+								14:00
+							</div>
+
+							<!-- 右侧：电量 -->
+							<div style="display: flex; align-items: center; z-index: 10;">
+								<span id="cp-status-battery-text">100%</span>
+								<i id="cp-status-battery-icon" class="fas fa-battery-full" style="margin-left: 4px; font-size: 14px;"></i>
+							</div>
+						</div>
+                        <!-- 1. 锁屏 -->
+						<div class="phone-screen screen-lock active" id="cp-screen-lock">
+							<div class="lock-time" id="cp-lock-time">14:00</div>
+							<div style="font-size: 14px; margin-bottom: 20px; color: #eee;" id="cp-lock-hint">输入密码以解锁</div>
+							
+							<!-- 动态圆点显示区 -->
+							<div class="pin-display" id="cp-pin-display">
+								<div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+							</div>
+
+							<!-- 拨号盘键盘 -->
+							<div class="pin-keypad">
+								<div class="pin-key" onclick="handlePinInput('1')">1</div>
+								<div class="pin-key" onclick="handlePinInput('2')">2</div>
+								<div class="pin-key" onclick="handlePinInput('3')">3</div>
+								<div class="pin-key" onclick="handlePinInput('4')">4</div>
+								<div class="pin-key" onclick="handlePinInput('5')">5</div>
+								<div class="pin-key" onclick="handlePinInput('6')">6</div>
+								<div class="pin-key" onclick="handlePinInput('7')">7</div>
+								<div class="pin-key" onclick="handlePinInput('8')">8</div>
+								<div class="pin-key" onclick="handlePinInput('9')">9</div>
+								<div class="pin-key action-key" onclick="handlePinDelete()">删除</div>
+								<div class="pin-key" onclick="handlePinInput('0')">0</div>
+								<div class="pin-key action-key" onclick="handlePinSubmit()">解锁</div>
+							</div>
+							
+							<div id="cp-lock-error" style="color: #ff4d4f; font-size: 14px; margin-top: 10px; display: none;">密码错误</div>
+						</div>
+
+                        <!-- 2. 主屏幕 (Home) -->
+                        <div class="phone-screen screen-home" id="cp-screen-home" style="background-image: url('https://s41.ax1x.com/2026/02/07/pZoDx1H.jpg');">
+                            <div class="app-grid">
+                                <div class="app-icon" onclick="openCpApp('sms')"><div class="app-icon-bg" style="background:#4cd137;"><i class="fas fa-comment-alt"></i></div><span>短信</span></div>
+                                <div class="app-icon" onclick="openCpApp('wechat')"><div class="app-icon-bg" style="background:#07c160;"><i class="fas fa-comments"></i></div><span>x信</span></div>
+                                <div class="app-icon" onclick="openCpApp('browser')"><div class="app-icon-bg" style="background:#00a8ff;"><i class="fab fa-safari"></i></div><span>浏览器</span></div>
+                                <div class="app-icon" onclick="openCpApp('tiktok')"><div class="app-icon-bg" style="background:#2f3640;"><i class="fab fa-tiktok"></i></div><span>某音</span></div>
+                                <div class="app-icon" onclick="openCpApp('phone')"><div class="app-icon-bg" style="background:#44bd32;"><i class="fas fa-phone"></i></div><span>电话</span></div>
+                                <div class="app-icon" onclick="openCpApp('wallet')"><div class="app-icon-bg" style="background:#e1b12c;"><i class="fas fa-wallet"></i></div><span>钱包</span></div>
+                                <div class="app-icon" onclick="openCpApp('gallery')"><div class="app-icon-bg" style="background:#fbc531;"><i class="fas fa-images"></i></div><span>相册</span></div>
+                                <div class="app-icon" onclick="openCpApp('settings')"><div class="app-icon-bg" style="background:#7f8fa6;"><i class="fas fa-cog"></i></div><span>设置</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 3. 通用 APP 界面容器 -->
+                        <div class="phone-screen screen-app" id="cp-screen-app">
+                            <div class="app-header">
+                                <i class="fas fa-chevron-left app-back" onclick="closeCpApp()"></i>
+                                <div class="app-title" id="cp-app-title">应用名称</div>
+                            </div>
+                            <div class="app-content" id="cp-app-content">
+                                <!-- 内容由 JS 动态填充 -->
+                            </div>
+                        </div>
+
+                        <!-- AI 加载遮罩 -->
+                        <div id="cp-loading-overlay" style="position:absolute; inset:0; background:rgba(255,255,255,0.9); z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; display:none;">
+                            <i class="fas fa-spinner fa-spin" style="font-size: 30px; color:#07c160; margin-bottom:10px;"></i>
+                            <span style="color:#666; font-size: 14px;" id="cp-loading-text">正在黑入TA的手机...</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- ============================================================ -->
+		<!-- 【新增】反向查手机配置页面 -->
+		<!-- ============================================================ -->
+		<div class="page" id="rcp-config-page">
+			<div class="page-content" style="padding-bottom: 80px;">
+				<!-- 顶部预设与角色选择 -->
+				<div class="form-section" style="background: #fdfdfd; border: 1px solid #eee;">
+					<label class="form-label" style="font-weight: bold; color: #e74c3c;">目标角色 (让谁看你的手机)</label>
+					<select id="rcp-char-select" class="form-select" style="margin-bottom: 10px;">
+						<!-- JS 动态填充 -->
+					</select>
+
+					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+						<label class="form-label" style="margin: 0; font-weight: bold; color: #3498db;">壁纸预设</label>
+						<button id="rcp-save-preset-btn" style="font-size: 12px; color: #3498db; background: none; border: 1px solid #3498db; padding: 2px 8px; border-radius: 4px;">保存当前壁纸</button>
+					</div>
+					<select id="rcp-preset-select" class="form-select">
+						<option value="">-- 选择壁纸预设 --</option>
+					</select>
+				</div>
+
+				<!-- 表单输入区 -->
+				<div class="form-section">
+					<label class="form-label" style="font-weight: bold; color:#e74c3c;">真实锁屏密码 (4位数字)</label>
+					<input type="text" id="rcp-password" class="form-input" placeholder="输入4位数字，如 0521 (AI会尝试猜)" maxlength="4">
+				</div>
+				
+				<div class="form-section">
+					<label class="form-label">手机壁纸 URL</label>
+					<input type="text" id="rcp-wallpaper" class="form-input" placeholder="输入图片链接">
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fas fa-comment-alt" style="color:#4cd137;"></i> 短信 (格式：发送人 # 内容)</label>
+					<textarea id="rcp-sms" class="form-textarea" style="height: 80px;" placeholder="妈妈 # 钱不够用跟妈说&#10;快递 # 你的快递已放驿站"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fas fa-comments" style="color:#07c160;"></i> 微信 (支持多轮，格式：联系人 # 对方的话 # 我的话 # 对方的话...)</label>
+					<textarea id="rcp-wechat" class="form-textarea" style="height: 100px;" placeholder="老板 # 周末加个班 # 好的老板 # 明天早上9点 # 收到&#10;死党 # 晚上出来喝酒？ # 不去了要陪TA"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fab fa-safari" style="color:#00a8ff;"></i> 浏览器搜索记录 (一行一条)</label>
+					<textarea id="rcp-browser" class="form-textarea" style="height: 80px;" placeholder="怎么给对象准备惊喜&#10;好吃的餐厅推荐"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fab fa-tiktok" style="color:#2f3640;"></i> 某音观看记录 (格式：视频描述 # 是否点赞Y/N # 我的评论)</label>
+					<textarea id="rcp-tiktok" class="form-textarea" style="height: 100px;" placeholder="搞笑猫猫视频 # Y # 哈哈哈哈太可爱了&#10;情感文案语录 # N # "></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fas fa-phone" style="color:#44bd32;"></i> 通话记录 (格式：联系人 # 拨出/未接/已接 # 详情或原因)</label>
+					<textarea id="rcp-calls" class="form-textarea" style="height: 80px;" placeholder="推销电话 # 未接 # 响了一声就挂了&#10;老爸 # 已接 # 问我最近怎么样"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fas fa-wallet" style="color:#e1b12c;"></i> 钱包 (格式：记录名称 # 金额)</label>
+					<textarea id="rcp-wallet" class="form-textarea" style="height: 80px;" placeholder="工商银行卡 # 15000.00&#10;昨天外卖消费 # -35.50"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fas fa-images" style="color:#fbc531;"></i> 日常相册 (一行一张照片描述)</label>
+					<textarea id="rcp-gallery-normal" class="form-textarea" style="height: 80px;" placeholder="一张今天的风景照&#10;中午吃的火锅照片"></textarea>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label"><i class="fas fa-lock" style="color:#ff4d4f;"></i> 私密相册 (一行一张照片描述)</label>
+					<textarea id="rcp-gallery-private" class="form-textarea" style="height: 80px;" placeholder="偷偷保存的TA的丑照&#10;准备送给TA的礼物截图"></textarea>
+				</div>
+				<div style="display: flex; gap: 10px; margin-top: 20px;">
+					<button id="rcp-generate-btn" class="batch-btn" style="flex: 1; background-color: #07c160; color: #fff; font-weight: bold; height: 50px;">生成 AI 反应剧本</button>
+					<button id="rcp-view-btn" class="batch-btn" style="flex: 1; background-color: #3498db; color: #fff; font-weight: bold; height: 50px; display: none;">开始模拟查岗</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- ============================================================ -->
+		<!-- 【新增】反向查手机自动播放详情页面 -->
+		<!-- ============================================================ -->
+		<div class="page" id="rcp-detail-page">
+			<div class="page-content" style="padding: 0; background: #fff; display: flex; flex-direction: column; height: 100%;">
+                
+                <!-- 顶部角色互动反应区 (AI 动态输出位置) -->
+                <div class="reaction-area">
+                    <div class="reaction-avatar" id="rcp-reaction-avatar"><i class="fas fa-user"></i></div>
+                    <div class="reaction-bubble" id="rcp-reaction-text">
+                        （盯着你的手机屏幕...）
+                    </div>
+                </div>
+
+                <!-- 手机模拟器主体 -->
+                <div style="padding: 15px; flex: 1;">
+                    <div class="phone-simulator-container">
+                        <!-- 手机状态栏 -->
+						<div class="sim-status-bar" id="rcp-status-bar" style="display: none;">
+							<div style="display: flex; align-items: center; z-index: 10;">
+								<span style="font-weight: 500;">NNCC</span>
+								<i class="fas fa-signal" style="margin-left: 5px; font-size: 10px;"></i>
+								<span style="font-size: 10px; margin-left: 2px; font-weight: bold;">5G</span>
+							</div>
+							<div id="rcp-status-time" style="font-weight: bold; position: absolute; left: 50%; transform: translateX(-50%); z-index: 5;">14:00</div>
+							<div style="display: flex; align-items: center; z-index: 10;">
+								<span>88%</span><i class="fas fa-battery-full" style="margin-left: 4px; font-size: 14px;"></i>
+							</div>
+						</div>
+                        
+                        <!-- 1. 锁屏 -->
+						<div class="phone-screen screen-lock active" id="rcp-screen-lock">
+							<div class="lock-time" id="rcp-lock-time">14:00</div>
+							<div style="font-size: 14px; margin-bottom: 20px; color: #eee;" id="rcp-lock-hint">输入密码以解锁</div>
+							
+							<div class="pin-display" id="rcp-pin-display">
+								<div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+							</div>
+
+							<div class="pin-keypad" style="pointer-events: none;"> <!-- 禁用手动点击，纯动画 -->
+								<div class="pin-key" id="rcp-key-1">1</div><div class="pin-key" id="rcp-key-2">2</div><div class="pin-key" id="rcp-key-3">3</div>
+								<div class="pin-key" id="rcp-key-4">4</div><div class="pin-key" id="rcp-key-5">5</div><div class="pin-key" id="rcp-key-6">6</div>
+								<div class="pin-key" id="rcp-key-7">7</div><div class="pin-key" id="rcp-key-8">8</div><div class="pin-key" id="rcp-key-9">9</div>
+								<div class="pin-key action-key"></div><div class="pin-key" id="rcp-key-0">0</div><div class="pin-key action-key"></div>
+							</div>
+							<div id="rcp-lock-error" style="color: #ff4d4f; font-size: 14px; margin-top: 10px; display: none;">密码错误</div>
+						</div>
+
+                        <!-- 2. 主屏幕 (Home) -->
+                        <div class="phone-screen screen-home" id="rcp-screen-home" style="background-image: url('https://s41.ax1x.com/2026/02/07/pZoDx1H.jpg');">
+                            <div class="app-grid">
+                                <div class="app-icon" id="rcp-app-sms"><div class="app-icon-bg" style="background:#4cd137;"><i class="fas fa-comment-alt"></i></div><span>短信</span></div>
+                                <div class="app-icon" id="rcp-app-wechat"><div class="app-icon-bg" style="background:#07c160;"><i class="fas fa-comments"></i></div><span>x信</span></div>
+                                <div class="app-icon" id="rcp-app-browser"><div class="app-icon-bg" style="background:#00a8ff;"><i class="fab fa-safari"></i></div><span>浏览器</span></div>
+                                <div class="app-icon" id="rcp-app-tiktok"><div class="app-icon-bg" style="background:#2f3640;"><i class="fab fa-tiktok"></i></div><span>某音</span></div>
+                                <div class="app-icon" id="rcp-app-phone"><div class="app-icon-bg" style="background:#44bd32;"><i class="fas fa-phone"></i></div><span>电话</span></div>
+                                <div class="app-icon" id="rcp-app-wallet"><div class="app-icon-bg" style="background:#e1b12c;"><i class="fas fa-wallet"></i></div><span>钱包</span></div>
+                                <div class="app-icon" id="rcp-app-gallery"><div class="app-icon-bg" style="background:#fbc531;"><i class="fas fa-images"></i></div><span>相册</span></div>
+								<div class="app-icon" id="rcp-app-settings"><div class="app-icon-bg" style="background:#7f8fa6;"><i class="fas fa-cog"></i></div><span>设置</span></div>
+                            </div>
+                        </div>
+
+                        <!-- 3. 通用 APP 界面容器 -->
+                        <div class="phone-screen screen-app" id="rcp-screen-app">
+                            <div class="app-header">
+                                <i class="fas fa-chevron-left app-back" id="rcp-app-back-btn"></i>
+                                <div class="app-title" id="rcp-app-title">应用名称</div>
+                            </div>
+                            <div class="app-content" id="rcp-app-content" style="position: relative;">
+                                <!-- 内容由 JS 动态填充 -->
+                            </div>
+                        </div>
+                        
+                        <!-- 覆盖全屏的点击光标模拟器 -->
+                        <div id="rcp-cursor" style="position:absolute; width:20px; height:20px; background:rgba(255,255,255,0.7); border-radius:50%; border:2px solid #07c160; z-index:9999; display:none; pointer-events:none; transition: all 0.3s ease;"></div>
+
+                    </div>
+                </div>
+            </div>
+		</div>
+		<!-- 【新增】经期记录与日历页面 -->
+		<div class="page" id="period-tracking-page">
+			<div class="page-content" style="padding-top: 15px; padding-bottom: 80px; background: #fdf5f6;">
+				
+				<!-- 状态展示卡片 -->
+				<div style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); border-radius: 16px; padding: 20px; color: #fff; text-align: center; margin: 0 15px 20px 15px; box-shadow: 0 4px 15px rgba(255, 107, 129, 0.3);">
+					<div style="font-size: 13px; opacity: 0.9; margin-bottom: 8px;"><i class="fas fa-magic"></i> AI 智能状态感知</div>
+					<div id="period-status-display" style="font-size: 18px; font-weight: bold; line-height: 1.5; text-shadow: 0 1px 2px rgba(0,0,0,0.1);">正在计算中...</div>
+				</div>
+
+				<!-- 日历容器 -->
+				<div style="background: #fff; border-radius: 16px; margin: 0 15px 20px 15px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+					<!-- 日历控制头 -->
+					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+						<button id="calendar-prev-btn" style="background: none; border: none; color: #ff6b81; font-size: 18px; padding: 5px 10px;"><i class="fas fa-chevron-left"></i></button>
+						<div id="calendar-month-year" style="font-size: 16px; font-weight: bold; color: #333;">2024年 2月</div>
+						<button id="calendar-next-btn" style="background: none; border: none; color: #ff6b81; font-size: 18px; padding: 5px 10px;"><i class="fas fa-chevron-right"></i></button>
+					</div>
+					
+					<!-- 星期表头 -->
+					<div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 12px; color: #999; margin-bottom: 10px;">
+						<div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+					</div>
+					
+					<!-- 日期网格 (JS 动态生成) -->
+					<div id="period-calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 5px;">
+						<!-- 占位 -->
+					</div>
+
+					<!-- 图例说明 -->
+					<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; font-size: 10px; color: #666;">
+						<div style="display:flex; align-items:center;"><span style="width:10px;height:10px;background:#ff4d4f;border-radius:50%;margin-right:4px;"></span>实际经期</div>
+						<div style="display:flex; align-items:center;"><span style="width:10px;height:10px;background:#ffccc7;border-radius:50%;margin-right:4px;"></span>预测经期</div>
+						<div style="display:flex; align-items:center;"><span style="width:10px;height:10px;background:#d3adf7;border-radius:50%;margin-right:4px;"></span>预测排卵期</div>
+						<div style="display:flex; align-items:center;"><span style="width:10px;height:10px;background:#d9f7be;border-radius:50%;margin-right:4px;"></span>安全期</div>
+					</div>
+
+					<!-- 操作按钮 -->
+					<div style="text-align: center; margin-top: 15px; border-top: 1px dashed #eee; padding-top: 15px;">
+						<div style="font-size: 12px; color: #ff6b81; margin-bottom: 10px;">💡 点击上方日期进行打卡</div>
+						<button id="period-undo-btn" style="background: #f5f5f5; border: none; color: #666; padding: 6px 15px; border-radius: 15px; font-size: 12px;"><i class="fas fa-undo"></i> 撤销上一次标记</button>
+					</div>
+				</div>
+
+				<!-- 基础设置 -->
+				<div style="background: #fff; border-radius: 16px; margin: 0 15px 20px 15px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+					<div style="display: flex; gap: 15px;">
+						<div class="form-section" style="flex: 1; margin-bottom: 0;">
+							<label class="form-label" style="font-size: 12px;">平均经期长度 (天)</label>
+							<input type="number" id="period-duration" class="form-input" style="background:#f9f9f9!important;" value="6">
+						</div>
+						<div class="form-section" style="flex: 1; margin-bottom: 0;">
+							<label class="form-label" style="font-size: 12px;">平均生理周期 (天)</label>
+							<input type="number" id="period-cycle-length" class="form-input" style="background:#f9f9f9!important;" value="28">
+						</div>
+					</div>
+				</div>
+				<!-- 数据管理 -->
+				<div style="background: #fff; border-radius: 16px; margin: 0 15px 20px 15px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); display:flex; justify-content:space-between; align-items:center;">
+					<div>
+						<div style="font-size: 14px; font-weight: bold; color: #333;">清理历史数据</div>
+						<div style="font-size: 10px; color: #999;">仅保留最近一次经期记录，减小备份体积</div>
+					</div>
+					<button id="period-clear-history-btn" style="background: #fff; border: 1px solid #ff9a9e; color: #ff9a9e; padding: 6px 12px; border-radius: 20px; font-size: 12px;">执行清理</button>
+				</div>
+				<!-- 同步设置 -->
+				<div style="background: #fff; border-radius: 16px; margin: 0 15px 20px 15px; padding: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+					<label class="form-label" style="color: #ff6b81; font-weight: bold;"><i class="fas fa-heartbeat"></i> 关怀同步授权</label>
+					<div style="font-size: 12px; color: #999; margin-bottom: 10px; line-height: 1.4;">勾选后，AI角色将能在聊天中感知你的状态并给予相应的情绪和生理关怀。(仅限开启时间感知的角色)</div>
+					<div class="scroll-select-box" id="period-sync-chars-container" style="height: 150px; background: #fdfdfd; border: 1px solid #fee;">
+						<!-- JS 动态渲染 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 【新增】用户面具列表顶部栏 -->
+		<div class="top-bar" id="user-mask-manage-top" style="display: none;">
+			<div class="top-bar-back" style="display: flex;">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="top-bar-title">用户面具管理</div>
+			<button class="top-bar-right-btn" id="add-user-mask-btn">
+				<i class="fas fa-plus"></i>
+			</button>
+		</div>
+		
+		<!-- 【新增】用户面具编辑顶部栏 -->
+		<div class="top-bar" id="user-mask-edit-top" style="display: none;">
+			<div class="top-bar-back" style="display: flex;">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="top-bar-title" id="user-mask-edit-title">编辑面具</div>
+			<button class="top-bar-right-btn" id="user-mask-save-btn">保存</button>
+		</div>
+		<!-- 【新增】用户面具列表页 -->
+        <div class="page" id="user-mask-manage-page">
+            <div class="page-content" id="user-mask-list-container">
+                <!-- JS 动态渲染面具列表 -->
+            </div>
+        </div>
+
+        <!-- 【新增】用户面具编辑/新增页 -->
+        <div class="page" id="user-mask-edit-page">
+            <div class="page-content">
+                <input type="hidden" id="user-mask-id-input">
+                <div class="form-section character-info-card">
+                    <div class="character-avatar-uploader" id="user-mask-avatar-uploader">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <input type="file" id="user-mask-avatar-input" accept="image/*" style="display: none;">
+                    <input type="text" id="user-mask-name-input" class="form-input" placeholder="马甲名称 (如: 龙傲天)">
+                </div>
+				<!-- 👇【将这段代码插入到这里】👇 -->
+				<div class="form-group">
+					<label class="form-label">备注 (仅用于区分，AI不可见)</label>
+					<input type="text" id="user-mask-remark-input" class="form-input" placeholder="输入备注，如：高冷线 / 病娇线">
+				</div>
+                <div class="form-section">
+                    <label class="form-label">马甲人设 (User Persona)</label>
+                    <textarea id="user-mask-desc-input" class="form-textarea" style="height: 120px;" placeholder="描述这个身份的性格、背景等，AI在对话时会参考此设定..."></textarea>
+                </div>
+                <div class="form-section">
+					<label class="form-label">绑定的用户声音ID (可选)</label>
+					<input type="text" id="user-mask-voice-input" class="form-input" placeholder="如: male-qn-qingse">
+				</div>
+                <!-- 编辑模式下显示的删除按钮 -->
+                <div class="form-section" id="user-mask-delete-section" style="display: none; margin-top: 30px;">
+                    <button class="batch-btn batch-delete" id="user-mask-delete-btn" style="width: 100%; height: 50px; background: #fff; border: 1px solid #ff3b30; border-radius: 8px;">删除此面具</button>
+                </div>
+            </div>
+        </div>
+		<!-- ================= START: 云同步设置页面顶部栏 ================= -->
+		<div class="top-bar" id="cloud-setting-top" style="display: none;">
+			<div class="top-bar-back" style="display: flex;">
+				<i class="fas fa-chevron-left"></i>
+			</div>
+			<div class="top-bar-title">云端同步 (WebDAV)</div>
+			<button class="top-bar-right-btn" id="cloud-setting-save-btn">保存</button>
+		</div>
+		<!-- ================= END: 云同步设置页面顶部栏 ================= -->
+
+		<!-- ================= START: 云同步设置页面 ================= -->
+		<div class="page" id="cloud-setting-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #888; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;">
+					<i class="fas fa-info-circle"></i> 支持坚果云等标准 WebDAV。如果点击测试报错“Failed to fetch”，说明该网盘限制了网页端跨域直连(CORS)。
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">CORS 代理地址 (必填)</label>
+					<input type="text" id="webdav-proxy-input" class="api-setting-input" placeholder="例如: https://nnphone-proxy.xxx.workers.dev/">
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">服务器地址 (URL)</label>
+					<input type="text" id="webdav-url-input" class="api-setting-input" placeholder="坚果云填: https://dav.jianguoyun.com/dav/">
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">账号 (Username)</label>
+					<input type="text" id="webdav-user-input" class="api-setting-input" placeholder="请输入网盘账号邮箱">
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">密码/应用授权码 (Password)</label>
+					<input type="password" id="webdav-pass-input" class="api-setting-input" placeholder="坚果云请填写第三方应用授权码">
+				</div>
+				
+				<div class="form-section" style="margin-top: 10px;">
+					<button class="batch-btn" id="webdav-test-btn" style="width: 100%; height: 44px; background: #f2f2f2; color: #333; border-radius: 8px; font-weight: bold;">测试连接</button>
+				</div>
+
+				<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px; display: flex; gap: 10px;">
+					<button class="batch-btn" id="cloud-upload-btn" style="flex: 1; height: 50px; background: #07c160; color: #fff; border-radius: 8px; font-weight: bold;">
+						<i class="fas fa-cloud-upload-alt"></i> 上传到云端
+					</button>
+					<button class="batch-btn" id="cloud-download-btn" style="flex: 1; height: 50px; background: #1565c0; color: #fff; border-radius: 8px; font-weight: bold;">
+						<i class="fas fa-cloud-download-alt"></i> 从云端恢复
+					</button>
+				</div>
+			</div>
+		</div>
+		<!-- ================= END: 云同步设置页面 ================= -->
+        <!-- 8. 聊天API设置页面 -->
+        <div class="page" id="chat-api-setting-page">
+            <div class="page-content">
+                <div class="api-preset-bar">
+                    <select id="preset-select-menu">
+                        <option value="">选择一个预设...</option>
+                    </select>
+                    <button id="manage-presets-btn">管理</button>
+                </div>
+                <div id="api-settings-form">
+                    <div class="api-setting-group">
+                        <label class="api-setting-label" for="api-url-input">API基础地址 (Base URL)</label>
+                        <input type="text" id="api-url-input" class="api-setting-input" placeholder="例如: api.openai.com">
+                    </div>
+                    <div class="api-setting-group">
+                        <label class="api-setting-label" for="api-key-input">API密钥 (API Key)</label>
+                        <input type="password" id="api-key-input" class="api-setting-input" placeholder="请输入您的API密钥">
+                    </div>
+                    <div class="api-setting-group">
+                        <label class="api-setting-label">模型 (Model)</label>
+                        <div class="model-fetch-container">
+                            <select id="model-select">
+                                <option value="">请先拉取模型</option>
+                            </select>
+                            <button id="fetch-models-btn">
+                                <i class="fas fa-sync-alt"></i> 拉取
+                            </button>
+                        </div>
+                    </div>
+                    <div class="api-setting-group">
+                        <label class="api-setting-label" for="api-temp-input">模型温度 (Temperature)</label>
+                        <input type="text" inputmode="decimal" id="api-temp-input" class="api-setting-input" placeholder="建议范围 0.0 - 2.0">
+                    </div>
+                </div>
+                <button class="save-preset-btn" id="save-as-preset-btn">另存为预设</button>
+            </div>
+        </div>
+        <!-- 9. 新建对话页面 -->
+        <div class="page" id="new-chat-page">
+            <div class="page-content">
+                <div class="form-section character-info-card">
+                    <div class="character-avatar-uploader" id="character-avatar-uploader"><i class="fas fa-camera"></i></div>
+                    <input type="text" id="character-name-input" class="form-input" placeholder="为你的角色取个名字">
+                </div>
+				 <!-- 在这里新增【联系人分组】 -->
+                <div class="form-section">
+                    <label class="form-label" for="character-group-input">联系人分组</label>
+                    <input type="text" id="character-group-input" class="form-input" list="chat-group-datalist" placeholder="输入或选择分组 (如: 朋友, 家人)">
+                </div>
+                <div class="form-section">
+                    <label class="form-label" for="character-persona-input">角色人设 (Prompt)</label>
+                    <textarea id="character-persona-input" class="form-textarea" placeholder="详细描述角色的性格、背景、说话风格等"></textarea>
+                </div>				
+				<div class="form-section">
+					<label class="form-label">允许使用的表情包分类</label>
+					<div id="new-chat-emoticon-select-container" class="scroll-select-box">
+						<!-- JS 动态渲染 -->
+					</div>
+				</div>
+
+                <div class="form-section">
+                    <label class="form-label">关联世界书 (可多选)</label>
+                    <div class="scroll-select-box" id="worldbook-select-container">
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="wb1">
+                            <span class="custom-check-circle"></span>
+                            <span>示例世界书: 赛博朋克设定</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="wb2">
+                            <span class="custom-check-circle"></span>
+                            <span>示例世界书: 魔法百科</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-section">
+                    <label class="form-label" for="character-voice-id">Minimax声音ID</label>
+                    <input type="text" id="character-voice-id" class="form-input" placeholder="填写声音ID (例如: female-shaonv)">
+                </div>
+                <div class="form-section">
+                    <div class="switch-container">
+                        <span class="form-label" style="margin-bottom: 0;">时间感知</span>
+                        <label class="switch"><input type="checkbox" id="character-time-awareness"><span class="slider"></span></label>
+                    </div>
+                </div>
+				<div class="form-section">
+                    <label class="form-label" for="character-offline-pov">线下模式叙事视角</label>
+                    <select id="character-offline-pov" class="form-select">
+                        <option value="first">第一人称 </option>
+                        <option value="third">第三人称 </option>
+                    </select>
+                </div>
+				<div class="form-section">
+                    <label class="form-label" style="margin-bottom: 10px;">绑定用户面具 (预设)</label>
+                    <select id="new-chat-user-mask-select" class="form-select">
+                        <option value="">使用全局默认设定</option>
+                    </select>
+                </div>
+				
+				 <!-- ================= START: 新增同步的设置项 ================= -->
+                
+               
+				
+                <div class="setting-item" style="padding: 0; border: none; margin-bottom: 25px;">
+					<div class="setting-item-label" style="width: auto; margin-right: 15px;">聊天背景 URL</div>
+					<div class="setting-item-content">
+						<input type="text" id="new-chat-bg-url" class="setting-input" placeholder="输入图片链接(URL)">
+					</div>
+				</div>
+
+                <div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+                    <h3 style="font-size: 16px; font-weight: 500; color: #333; margin-bottom: 15px;">专属 API 设置 (可选)</h3>
+                    <div style="font-size: 12px; color: #888; margin-bottom: 10px;">不填则默认使用默认聊天 API 设置。</div>
+
+                    <label class="form-label">API Base URL</label>
+                    <input type="text" id="new-chat-api-url" class="form-input" placeholder="例如: https://api.openai.com">
+
+                    <label class="form-label" style="margin-top: 10px;">API Key</label>
+                    <input type="password" id="new-chat-api-key" class="form-input" placeholder="sk-...">
+
+                    <label class="form-label" style="margin-top: 10px;">模型 (Model)</label>
+                    <div class="model-fetch-container">
+                        <select id="new-chat-model-select" class="form-select">
+                            <option value="">使用全局设置</option>
+                        </select>
+                        <button id="new-chat-fetch-models-btn" class="fetch-btn">
+                            <i class="fas fa-sync-alt"></i> 拉取
+                        </button>
+                    </div>
+
+                    <label class="form-label" style="margin-top: 10px;">温度 (Temperature)</label>
+                    <input type="number" id="new-chat-api-temp" class="form-input" placeholder="默认 0.7" step="0.1">
+				</div>							
+                <!-- ================= END: 新增同步的设置项 ================= -->
+				<!-- [新增] 导入角色按钮区域 -->
+                <div class="form-section" style="margin-top: 30px; border-top: 1px dashed #eee; padding-top: 30px;">
+                    <button class="batch-btn" id="import-character-btn" style="width: 100%; height: 50px; background: #f9f9f9; border: 1px dashed #ccc; color: #333; border-radius: 8px;">
+                        <i class="fas fa-file-import"></i> 导入角色数据
+                    </button>
+                    <input type="file" id="import-character-file" accept=".json" style="display: none;">
+                </div>      			
+            </div>			
+        </div>
+        <!-- ============================================================ -->
+		<!-- 【新增】新建群聊页面 -->
+		<!-- ============================================================ -->
+		
+
+		<div class="page" id="new-group-page">
+			<div class="page-content">
+				<!-- 群基础信息 -->
+				<div class="form-section character-info-card">
+					<div class="character-avatar-uploader" id="group-avatar-uploader">
+						<i class="fas fa-users" style="font-size: 24px;"></i>
+					</div>
+					<input type="file" id="group-avatar-input" accept="image/*" style="display: none;">
+					<input type="text" id="group-name-input" class="form-input" placeholder="群聊名称 (如: 异世界冒险小队)">
+				</div>
+
+				<!-- 群设定 -->
+				<div class="form-section">
+					<label class="form-label">群聊背景/情境设定 (Prompt)</label>
+					<textarea id="group-context-input" class="form-textarea" placeholder="例如：这是一个充满魔法的学院，大家正在讨论周末的探险计划..."></textarea>
+				</div>
+				
+				<!-- 成员管理 -->
+				<div class="form-section">
+					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+						<label class="form-label" style="margin:0;">群成员管理</label>
+						<button id="add-npc-btn" style="font-size: 12px; color: #07c160; background: none; border: 1px solid #07c160; padding: 2px 8px; border-radius: 4px;">+ 添加NPC</button>
+					</div>
+					<div class="scroll-select-box" id="group-members-container" style="height: 200px;">
+						<!-- JS 动态渲染已有角色列表 -->
+					</div>
+				</div>
+				<!-- 【新增】关联世界书 -->
+				<div class="form-section">
+					<label class="form-label">关联世界书 (可多选)</label>
+					<div class="scroll-select-box" id="new-group-worldbook-container" style="height: 150px;">
+						<!-- JS 动态渲染已有世界书列表 -->
+					</div>
+				</div>
+				<!-- 开关设置 -->
+				<div class="form-section">
+					<div class="switch-container">
+						<span class="form-label" style="margin-bottom: 0;">时间感知</span>
+						<label class="switch"><input type="checkbox" id="group-time-awareness"><span class="slider"></span></label>
+					</div>
+				</div>
+				
+				<div class="form-section">
+					<div class="switch-container">
+						<span class="form-label" style="margin-bottom: 0;">记忆互通 (私聊<->群聊)</span>
+						<label class="switch"><input type="checkbox" id="group-memory-sync"><span class="slider"></span></label>
+					</div>
+					<div style="font-size: 12px; color: #999; margin-top: 5px;">开启后，群内角色会读取与你的私聊记忆(LTM)，群聊发生的大事件也会写入私聊记忆。</div>
+				</div>
+
+				<!-- 【新增】群聊专属用户面具 -->
+				<div class="form-section">
+					<label class="form-label" style="margin-bottom: 10px;">绑定群聊用户面具</label>
+                    <select id="new-group-user-mask-select" class="form-select">
+                        <option value="">使用全局默认设定</option>
+                    </select>
+				</div>
+				
+				<!-- 群聊背景图 -->
+				<div class="setting-item" style="padding: 0; border: none; margin-bottom: 25px;">
+					<div class="setting-item-label" style="width: auto; margin-right: 15px;">群聊背景 URL</div>
+					<div class="setting-item-content">
+						<input type="text" id="group-bg-url" class="setting-input" placeholder="输入图片链接(URL)">
+					</div>
+				</div>
+
+				<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+					<h3 style="font-size: 16px; font-weight: 500; color: #333; margin-bottom: 15px;">群聊专用 API 设置 (可选)</h3>
+					<div style="font-size: 12px; color: #888; margin-bottom: 10px;">不填则使用全局默认 API 设置。</div>
+
+					<label class="form-label">API Base URL</label>
+					<input type="text" id="new-group-api-url" class="form-input" placeholder="例如: https://api.openai.com">
+					<label class="form-label" style="margin-top: 10px;">API Key</label>
+					<input type="password" id="new-group-api-key" class="form-input" placeholder="sk-...">
+					<label class="form-label" style="margin-top: 10px;">模型 (Model)</label>
+					<div class="model-fetch-container">
+						<select id="new-group-model-select" class="form-select">
+							<option value="">使用全局设置</option>
+						</select>
+						<button id="new-group-fetch-models-btn" class="fetch-btn">
+							<i class="fas fa-sync-alt"></i> 拉取
+						</button>
+					</div>
+					<label class="form-label" style="margin-top: 10px;">温度 (Temperature)</label>
+					<input type="number" id="new-group-api-temp" class="form-input" placeholder="默认 0.7" step="0.1">
+				</div>
+				<!-- 【新增】导入群聊按钮区域 -->
+					<div class="form-section" style="margin-top: 30px; border-top: 1px dashed #eee; padding-top: 30px;">
+						<button class="batch-btn" id="import-group-btn" style="width: 100%; height: 50px; background: #f9f9f9; border: 1px dashed #ccc; color: #333; border-radius: 8px;">
+							<i class="fas fa-file-import"></i> 一键导入群聊数据
+						</button>
+						<input type="file" id="import-group-file" accept=".json" style="display: none;">
+					</div>
+				</div>	
+			</div>		
+
+
+		<!-- 【新增】添加NPC弹窗 -->
+		<div class="modal-mask" id="npc-add-modal">
+			<div class="center-modal-content">
+				<div class="center-modal-title">添加 NPC</div>
+				
+				<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+					<div class="character-avatar-uploader" id="npc-avatar-uploader" style="width: 50px; height: 50px;">
+						<i class="fas fa-user-secret"></i>
+					</div>
+					<input type="file" id="npc-avatar-input" accept="image/*" style="display: none;">
+					<input type="text" id="npc-name-input" class="form-input" placeholder="NPC 名字" style="flex: 1;">
+				</div>
+				
+				<textarea id="npc-persona-input" class="form-textarea" style="height: 100px;" placeholder="NPC 简短设定 (如：路人甲，性格暴躁)"></textarea>
+				
+				<div class="center-modal-buttons">
+					<button class="modal-btn-secondary" id="cancel-npc-btn">取消</button>
+					<button class="modal-btn-primary" id="confirm-npc-btn">添加</button>
+				</div>
+			</div>
+		</div>
+		
+		<!-- ============================================================ -->
+		<!-- 【新增/修复 5】群聊专属设置页面 (独立于私聊设置) -->
+		<!-- ============================================================ -->
+		<div class="page" id="group-setting-page">
+			<div class="page-content">
+				<!-- 群信息 -->
+				<div class="form-section character-info-card">
+					<div class="character-avatar-uploader" id="setting-group-avatar-uploader"></div>
+					<input type="file" id="setting-group-avatar-input" accept="image/*" style="display: none;">
+					<input type="text" id="setting-group-name" class="form-input" placeholder="群聊名称">
+				</div>
+
+				<!-- 群设定 -->
+				<div class="form-section">
+					<label class="form-label">群聊背景/情境 (Prompt)</label>
+					<textarea id="setting-group-context" class="form-textarea" placeholder="设定群聊背景..."></textarea>
+				</div>
+
+				<!-- 成员管理 -->
+				<div class="form-section">
+					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+						<label class="form-label" style="margin:0;">群成员管理</label>
+						<button id="setting-add-npc-btn" style="font-size: 12px; color: #07c160; background: none; border: 1px solid #07c160; padding: 2px 8px; border-radius: 4px;">+ 添加NPC</button>
+					</div>
+					<div class="scroll-select-box" id="setting-group-members-container" style="height: 200px;"></div>
+				</div>
+				<!-- 【核心新增】关联世界书容器 -->
+				<div class="form-section">
+					<label class="form-label">关联世界书 (可多选)</label>
+					<div class="scroll-select-box" id="setting-group-worldbook-container" style="height: 150px;">
+						<!-- JS 将会在这里动态渲染所有的世界书选项 -->
+					</div>
+				</div>
+				<!-- 基础开关 -->
+				<div class="form-section">
+					<div class="switch-container">
+						<span class="form-label" style="margin-bottom: 0;">时间感知</span>
+						<label class="switch"><input type="checkbox" id="setting-group-time"><span class="slider"></span></label>
+					</div>
+				</div>
+				<div class="form-section">
+					<div class="switch-container">
+						<span class="form-label" style="margin-bottom: 0;">记忆互通</span>
+						<label class="switch"><input type="checkbox" id="setting-group-sync"><span class="slider"></span></label>
+					</div>
+				</div>
+
+				<!-- 【新增】群聊设置页专属用户面具 -->
+				<div class="form-section">
+					<label class="form-label" style="margin-bottom: 10px;">绑定群聊用户面具</label>
+                    <select id="setting-group-user-mask-select" class="form-select">
+                        <option value="">使用全局默认设定</option>
+                    </select>
+				</div>
+				
+				<!-- 背景图 -->
+				<div class="setting-item" style="padding: 0; border: none; margin-bottom: 25px;">
+					<div class="setting-item-label" style="width: auto; margin-right: 15px;">群聊背景 URL</div>
+					<div class="setting-item-content">
+						<input type="text" id="setting-group-bg-url" class="setting-input" placeholder="输入图片链接(URL)">
+					</div>
+				</div>
+
+				<!-- API 设置 -->
+				<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+					<h3 style="font-size: 16px; font-weight: 500; color: #333; margin-bottom: 15px;">群聊专用 API 设置</h3>
+					<!--...这里保持原来的表单...-->
+					<label class="form-label">API Base URL</label>
+					<input type="text" id="setting-group-api-url" class="form-input">
+					<label class="form-label" style="margin-top: 10px;">API Key</label>
+					<input type="password" id="setting-group-api-key" class="form-input">
+					<label class="form-label" style="margin-top: 10px;">模型</label>
+					<div class="model-fetch-container">
+						<select id="setting-group-model-select" class="form-select"><option value="">使用全局设置</option></select>
+						<button id="setting-group-fetch-models-btn" class="fetch-btn"><i class="fas fa-sync-alt"></i> 拉取</button>
+					</div>
+					<label class="form-label" style="margin-top: 10px;">温度</label>
+					<input type="number" id="setting-group-api-temp" class="form-input" step="0.1">
+				</div>
+				<!-- 【新增】导出群聊按钮区域 -->
+                <div class="form-section" style="margin-top: 10px;">
+                     <button class="batch-btn" id="setting-export-group-btn" style="width: 100%; height: 50px; background: #fff; border: 1px solid #1565c0; color: #1565c0; border-radius: 8px;"><i class="fas fa-file-export"></i> 导出群聊</button>
+                </div>  
+				<!-- 删除按钮 -->
+				<div class="form-section" style="margin-top: 30px;">
+					 <button class="batch-btn batch-delete" id="setting-delete-group-btn" style="width: 100%; height: 50px; background: #fff; border: 1px solid #ff3b30; border-radius: 8px;">解散群聊</button>
+				</div>
+			</div>
+		</div>
+        <!-- 10. 对话详情页面 -->
+        <div class="page" id="chat-detail-page">
+            <div class="page-content" id="chat-message-container">
+                <div style="text-align: center; color: #999; margin: 20px; font-size: 12px;">
+                    与 <span id="chat-target-name"></span> 的加密对话
+                </div>
+            </div>
+        </div>
+		
+		<!-- 11. 记忆配置页面 -->
+		<div class="page" id="memory-setting-page">
+			<div class="page-content">
+				<!-- 区域1：短期记忆设置 -->
+				<div class="form-section">
+					<label class="form-label" style="font-weight: bold; color: #333;">短期记忆 (上下文轮数)</label>
+					<div style="font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.4;">
+						决定发送给 AI 的最近消息数量。数值越大记得越久，但消耗 Token 越多，回复速度可能变慢。
+					</div>
+					<input type="number" id="short-term-memory-input" class="form-input" placeholder="系统默认: 20">
+				</div>
+
+				<hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+
+				<!-- 在记忆配置页面新增输入 -->
+				<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+					<h3 style="font-size: 16px; font-weight: 500; color: #333; margin-bottom: 15px;">总结专用 API (可选)</h3>
+					<div style="font-size: 12px; color: #888; margin-bottom: 10px;">不填则默认使用聊天 API 进行总结。</div>
+					
+					<label class="form-label">Base URL</label>
+					<input type="text" id="ltm-api-url-input" class="form-input">
+					
+					<label class="form-label" style="margin-top: 10px;">API Key</label>
+					<input type="password" id="ltm-api-key-input" class="form-input">
+					
+					<label class="form-label" style="margin-top: 10px;">模型 (Model)</label>
+						<div class="model-fetch-container">
+							<select id="ltm-model-select">
+								<option value="">请先拉取模型</option>
+							</select>
+							<button id="ltm-fetch-models-btn">
+								<i class="fas fa-sync-alt"></i> 拉取
+							</button>
+						</div>
+				</div>
+				
+				<!-- 区域2：长期记忆配置 -->
+				<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+					<h3 style="font-size: 16px; font-weight: 500; color: #333; margin-bottom: 15px;">长期记忆 (LTM)</h3>
+					
+					<div class="switch-container" style="margin-bottom: 15px;">
+						<span class="form-label" style="margin-bottom: 0;">开启自动总结</span>
+						<label class="switch">
+							<input type="checkbox" id="ltm-enabled-switch">
+							<span class="slider"></span>
+						</label>
+					</div>
+					
+					<!-- 【新增】灰色小字提示，无背景色 -->
+                    <div style="font-size: 12px; color: #999; margin-bottom: 15px; line-height: 1.4;">
+                        <i class="fas fa-sync-alt" style="margin-right: 3px;"></i> 
+                        容错机制：若总结失败，系统会保留历史对话，并在累积到下一轮对话时自动重试总结，直到成功为止。
+                    </div>
+					
+					<label class="form-label">自动总结触发间隔 (轮数)</label>
+					<input type="number" id="ltm-interval-input" class="form-input" placeholder="例如 10，设为0则关闭">
+					<div style="font-size: 12px; color: #999; margin-top: 5px;">
+						每进行多少轮对话后，自动后台生成一次记忆总结。
+					</div>
+
+					<label class="form-label" style="margin-top: 15px;">记忆存储条数上限</label>
+					<input type="number" id="ltm-max-input" class="form-input" placeholder="例如 5">
+					<div style="font-size: 12px; color: #999; margin-top: 5px;">
+						超过上限后，将自动删除最早的一条记忆 (FIFO)。
+					</div>
+					<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+						<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+							<label class="form-label" style="margin:0; font-weight:bold;">自定义总结提示词 (私聊)</label>
+							<button id="reset-ltm-prompt-btn" style="font-size:12px; color:#576b95; background:none; border:none; padding:5px; cursor:pointer;">
+								<i class="fas fa-undo"></i> 恢复默认
+							</button>
+						</div>
+						<div style="font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.5; background:#f9f9f9; padding:8px; border-radius:4px;">
+							<span style="color:#333; font-weight:bold;">可用变量(系统会自动替换)：</span><br>
+							<code>{charName}</code> : 角色名字<br>
+							<code>{userName}</code> : 用户名字<br>
+							<code>{timeHeader}</code> : 时间段标记 (如 【23/10/01 10:00 - 10:30】)<br>
+							<span style="color:#ff3b30;">注意：请务必保留 {timeHeader} 变量在开头，否则无法记录时间。</span>
+						</div>
+						<textarea id="ltm-prompt-input" class="form-textarea code-input" style="height: 250px; font-size: 13px; line-height: 1.4;" placeholder="输入私聊的自定义系统提示词..."></textarea>
+					</div>
+
+					<div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+						<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+							<label class="form-label" style="margin:0; font-weight:bold;">自定义总结提示词 (群聊)</label>
+							<button id="reset-group-ltm-prompt-btn" style="font-size:12px; color:#576b95; background:none; border:none; padding:5px; cursor:pointer;">
+								<i class="fas fa-undo"></i> 恢复默认
+							</button>
+						</div>
+						<div style="font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.5; background:#f9f9f9; padding:8px; border-radius:4px;">
+							<span style="color:#333; font-weight:bold;">可用变量(系统会自动替换)：</span><br>
+							<code>{charName}</code> : 群聊名称<br>
+							<code>{userName}</code> : 用户名字<br>
+							<code>{timeHeader}</code> : 时间段标记<br>
+							<span style="color:#ff3b30;">注意：请务必保留 {timeHeader} 变量在开头，否则无法记录时间。</span>
+						</div>
+						<textarea id="group-ltm-prompt-input" class="form-textarea code-input" style="height: 250px; font-size: 13px; line-height: 1.4;" placeholder="输入群聊的自定义系统提示词..."></textarea>
+					</div>
+			</div>
+		</div>
+		</div>
+		
+		<!-- 【新增】12.0人生档案页面 -->
+		<div class="page" id="life-events-page">
+			<div class="page-content">
+				<button class="add-event-btn" id="add-life-event-btn">
+					<i class="fas fa-plus-circle"></i> 添加大事件
+				</button>
+				<div id="life-events-list">
+					<!-- JS 动态渲染 -->
+				</div>
+			</div>
+		</div>
+		
+		<!-- 【新增】12.1 长期记忆编辑页面 -->
+        <div class="page" id="long-term-memory-page">
+            <!-- 【关键修改】将 page-content 变成一个空容器，并给予它一个唯一的ID -->
+            <div class="page-content" id="ltm-page-content">
+                <!-- 此处留空，由 app.js 动态生成所有内容 -->
+            </div>
+        </div>
+		
+		<!-- 13. 聊天设置页面 (新增) -->
+        <div class="page" id="chat-setting-page">
+            <div class="page-content">
+                <div class="form-section character-info-card">
+                    <div class="character-avatar-uploader" id="setting-avatar-uploader">
+                        <!-- 这里会由 JS 动态填充图片 -->
+                        <i class="fas fa-camera"></i>
+                    </div>
+					<input type="file" id="setting-avatar-upload-input" accept="image/*" style="display:none;">
+                    <input type="text" id="setting-character-name" class="form-input" placeholder="角色名字">
+                </div>
+                 <!-- 在这里新增【联系人分组】 -->
+                <div class="form-section">
+                    <label class="form-label" for="setting-character-group">联系人分组</label>
+                    <input type="text" id="setting-character-group" class="form-input" list="chat-group-datalist" placeholder="输入或选择分组">
+                </div>
+                <div class="form-section">
+                    <label class="form-label" for="setting-character-persona">角色人设 (Prompt)</label>
+                    <textarea id="setting-character-persona" class="form-textarea" placeholder="详细描述角色的性格、背景、说话风格等"></textarea>
+                </div>
+                <div class="form-section">
+					<label class="form-label">表情包权限设置</label>
+					<div id="setting-emoticon-select-container" class="scroll-select-box">
+						<!-- JS 动态渲染 -->
+					</div>
+				</div>
+                <div class="form-section">
+                    <label class="form-label">关联世界书 (可多选)</label>
+                    <div class="scroll-select-box" id="setting-worldbook-container">
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="wb1">
+                            <span class="custom-check-circle"></span>
+                            <span>示例世界书: 赛博朋克设定</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" value="wb2">
+                            <span class="custom-check-circle"></span>
+                            <span>示例世界书: 魔法百科</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <label class="form-label" for="setting-character-voice">Minimax声音ID</label>
+                    <input type="text" id="setting-character-voice" class="form-input" placeholder="填写声音ID">
+                </div>
+                
+                <div class="form-section">
+                    <div class="switch-container">
+                        <span class="form-label" style="margin-bottom: 0;">时间感知</span>
+                        <label class="switch">
+                            <input type="checkbox" id="setting-time-awareness">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+				<div class="form-section">
+                    <label class="form-label" for="setting-offline-pov">线下模式叙事视角</label>
+                    <select id="setting-offline-pov" class="form-select">
+                        <option value="first">第一人称 </option>
+                        <option value="third">第三人称 </option>
+                    </select>
+                </div>
+                <div class="form-section">
+                    <label class="form-label" style="margin-bottom: 10px;">绑定用户面具 (预设)</label>
+                    <select id="setting-user-mask-select" class="form-select">
+                        <option value="">使用全局默认设定</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+					<div class="setting-item-label">聊天背景 URL</div>
+					<div class="setting-item-content">
+						<input type="text" id="setting-character-bg-url" class="setting-input" placeholder="输入图片链接(URL)">
+					</div>
+				</div>
+				<!-- 新增：角色专属 API 设置区域 -->
+                <div class="form-section" style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 20px;">
+                    <h3 style="font-size: 16px; font-weight: 500; color: #333; margin-bottom: 15px;">专属 API 设置 (可选)</h3>
+                    <div style="font-size: 12px; color: #888; margin-bottom: 10px;">不填则默认使用默认聊天 API 设置。</div>
+
+                    <label class="form-label">API Base URL</label>
+                    <input type="text" id="setting-api-url" class="form-input" placeholder="例如: https://api.openai.com">
+
+                    <label class="form-label" style="margin-top: 10px;">API Key</label>
+                    <input type="password" id="setting-api-key" class="form-input" placeholder="sk-...">
+
+                    <label class="form-label" style="margin-top: 10px;">模型 (Model)</label>
+                    <div class="model-fetch-container">
+                        <select id="setting-model-select" class="form-select">
+                            <option value="">使用全局设置</option>
+                        </select>
+                        <button id="setting-fetch-models-btn" class="fetch-btn">
+                            <i class="fas fa-sync-alt"></i> 拉取
+                        </button>
+                    </div>
+
+                    <label class="form-label" style="margin-top: 10px;">温度 (Temperature)</label>
+                    <input type="number" id="setting-api-temp" class="form-input" placeholder="默认 0.7" step="0.1">
+                </div>
+				<!-- [新增] 导出角色按钮区域 -->
+                <div class="form-section" style="margin-top: 10px;">
+                     <button class="batch-btn" id="setting-export-character-btn" style="width: 100%; height: 50px; background: #fff; border: 1px solid #1565c0; color: #1565c0; border-radius: 8px;"><i class="fas fa-file-export"></i> 导出角色</button>
+                </div>               
+                <!-- 删除按钮区域 -->
+                <div class="form-section" style="margin-top: 30px;">
+                     <button class="batch-btn batch-delete" id="setting-delete-chat-btn" style="width: 100%; height: 50px; background: #fff; border: 1px solid #ff3b30; border-radius: 8px;">删除此对话</button>
+                </div>
+            </div>
+        </div>
+		<!-- 【新增】搜索聊天记录页面 -->
+		<div class="page" id="chat-search-page">
+			<div class="page-content" style="padding-top: 15px;">
+				<div class="search-bar-container">
+					<i class="fas fa-search" style="color: #999; margin-right: 8px;"></i>
+					<input type="text" id="chat-search-input" placeholder="搜索聊天记录...">
+					<i class="fas fa-times-circle" id="chat-search-clear" style="color: #ccc; cursor: pointer; display: none;"></i>
+				</div>
+				<div id="chat-search-results">
+					<div style="text-align:center; color:#999; margin-top:50px;">输入关键字搜索记录</div>
+				</div>
+			</div>
+		</div>	
+		<!-- ============================================================ -->
+		<!-- 【新增】论坛相关页面 -->
+		<!-- ============================================================ -->
+		
+		<!-- 1. 论坛主页面 -->
+		<div class="page" id="forum-main-page">
+			<!-- 分页 Tab 和 操作按钮 -->
+			<div class="forum-tabs-wrapper">
+				<div class="forum-tabs-scroll" id="forum-tabs-container">
+					<!-- JS 动态渲染 Tab -->
+				</div>
+				<div class="forum-tabs-actions">
+					<button id="forum-add-board-btn"><i class="fas fa-plus"></i></button>
+					<button id="forum-manage-boards-btn"><i class="fas fa-cog"></i></button>
+				</div>
+			</div>
+			
+			<div class="page-content" id="forum-posts-container" style="padding-top: 50px;">
+				<!-- JS 动态渲染帖子列表，或空状态提示 -->
+			</div>
+		</div>
+
+		<!-- 2. 版块管理页面 -->
+		<div class="page" id="forum-manage-page">
+			<div class="page-content" id="forum-manage-list-container">
+				<!-- JS 动态渲染版块列表 -->
+			</div>
+		</div>
+
+		<!-- 3. 添加/编辑版块页面 -->
+		<div class="page" id="forum-board-edit-page">
+			<div class="page-content">
+				<input type="hidden" id="forum-board-id-input">
+				
+				<div class="form-section">
+					<label class="form-label">版块名称</label>
+					<input type="text" id="forum-board-name-input" class="form-input" placeholder="例如：吃瓜灌水区">
+				</div>
+
+				<div class="form-section">
+					<label class="form-label">关联世界书 (可多选)</label>
+					<div class="scroll-select-box" id="forum-board-wb-container">
+						<!-- JS 动态渲染 -->
+					</div>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label">允许发帖/回帖的角色 (可多选)</label>
+					<div class="scroll-select-box" id="forum-board-chars-container">
+						<!-- JS 动态渲染 -->
+					</div>
+				</div>
+
+				<div class="form-section">
+					<div class="switch-container">
+						<span class="form-label" style="margin-bottom: 0;">与私聊记忆互通</span>
+						<label class="switch"><input type="checkbox" id="forum-board-sync-switch" checked><span class="slider"></span></label>
+					</div>
+					<div style="font-size: 12px; color: #999; margin-top: 5px;">开启后，AI在私聊中将能回忆起该版块的帖子内容。</div>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label">存入记忆的帖子条数</label>
+					<input type="number" id="forum-board-limit-input" class="form-input" value="5" placeholder="建议不要超过5条">
+				</div>
+
+				<div class="form-section" id="forum-board-delete-section" style="display: none; margin-top: 30px;">
+					<button class="batch-btn batch-delete" id="forum-board-delete-btn" style="width: 100%; height: 50px; background: #fff; border: 1px solid #ff3b30; border-radius: 8px;">删除此版块</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 4. 帖子详情页面 -->
+		<div class="page" id="forum-post-detail-page">
+			<div class="page-content" id="forum-post-detail-container" style="padding-bottom: 70px;">
+				<!-- JS 动态渲染帖子正文和回复列表 -->
+			</div>
+			
+			<!-- 论坛回帖输入底栏 (类名已独立，防止与聊天底栏冲突) -->
+			<div class="forum-input-bar" id="forum-reply-bar" style="display: none;">
+				<!-- 左侧 @ 按钮 -->
+				<div class="forum-bar-group" style="margin-right: 5px;">
+					<button class="forum-bar-btn" id="forum-at-btn" style="width: 36px; height: 36px; font-size: 20px; color: #555;">
+						<i class="fas fa-at"></i>
+					</button>
+				</div>
+				<div class="forum-bar-center">
+					<input type="text" id="forum-reply-input" class="forum-bar-input" placeholder="写下你的评论..." autocomplete="off" style="height: 36px; padding: 0 15px; border-radius: 18px;">
+				</div>
+				<div class="forum-bar-group">
+					<!-- 移除了原有的 send-btn 类名，避免聊天 JS 误抓 -->
+					<button class="forum-bar-btn forum-send-btn" id="forum-send-reply-btn" style="background: #07c160; color: #fff; width: 60px; border-radius: 18px; font-size: 14px;">发送</button>
+				</div>
+			</div>
+		</div>
+		<!-- 5. 发帖面具设置页 -->
+		<div class="page" id="forum-mask-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #999; margin-bottom: 10px; line-height: 1.4;">
+					在此设置你在【当前版块】发帖和回帖时使用的虚拟身份。留空则默认使用全局用户资料。
+				</div>
+				<div class="form-section">
+                    <label class="form-label" style="margin-bottom: 10px;">选择论坛马甲</label>
+                    <select id="forum-board-mask-select" class="form-select">
+                        <option value="">使用全局默认设定</option>
+                        <!-- JS动态填充 -->
+                    </select>
+                </div>
+			</div>
+		</div>
+
+		<!-- 6. 用户发布新帖页 -->
+		<div class="page" id="forum-create-post-page">
+			<div class="page-content">
+				<div class="form-section">
+					<input type="text" id="forum-create-title" class="form-input" placeholder="加个吸引人的标题吧..." style="font-size: 18px; font-weight: bold; border: none; border-bottom: 1px solid #eee; border-radius: 0; padding: 15px 5px;">
+				</div>
+				<div class="form-section">
+					<textarea id="forum-create-content" class="form-textarea" style="height: 250px; border: none; padding: 5px; font-size: 16px;" placeholder="分享你的想法..."></textarea>
+				</div>
+			</div>
+		</div>
+		 <!-- ============================================================ -->
+		<!-- 【页面内容区域 - 世界书相关】 -->
+		<!-- ============================================================ -->
+		
+		<!-- 14. 世界书管理页面 (列表) -->
+		<div class="page" id="worldbook-list-page">
+			<div class="page-content" id="worldbook-list-container">
+				<!-- JS 动态渲染的卡片会放在这里 -->
+			</div>
+		</div>
+
+		<!-- 15. 世界书编辑页面 (详情) -->
+		<div class="page" id="worldbook-edit-page">
+			<div class="page-content">
+				<div class="form-section">
+					<label class="form-label">标题 (关键词)</label>
+					<input type="text" id="wb-title-input" class="form-input" placeholder="输入关键词，如：赛博朋克">
+				</div>
+				<div class="form-section">
+					<label class="form-label">分类 (用于分组)</label>
+					<input type="text" id="wb-category-input" class="form-input" placeholder="输入分类，如：背景设定">
+				</div>
+				<div class="form-section">
+					<label class="form-label">内容详情</label>
+					<textarea id="wb-content-input" class="form-textarea" style="height: 200px;" placeholder="输入世界书的正文内容，当提及标题关键词时，AI会参考此内容..."></textarea>
+				</div>
+				<div class="form-section">
+					<label class="form-label">注入位置</label>
+					<select id="wb-position-input" class="form-select">
+						<option value="after">人设后 (默认，作为百科补充资料)</option>
+						<option value="before">人设前 (最高优先级，作为正则和生成规范)</option>
+					</select>
+					<div style="font-size: 12px; color: #999; margin-top: 5px;">
+						注：人设前会放在提示词最开头，对AI的行为约束力极强；人设后放在结尾，适合做设定集和百科补充。
+					</div>
+				</div>
+				<!-- 隐藏ID，用于判断是新增还是修改 -->
+				<input type="hidden" id="wb-edit-id">
+
+				<!-- 编辑模式下显示的删除按钮 -->
+				<div class="wb-delete-btn-container" id="wb-delete-btn-area" style="display: none; margin-top: 30px;">
+					<button class="batch-btn batch-delete" id="wb-item-delete-btn" style="width: 100%; height: 50px; background: #fff; border: 1px solid #ff3b30; border-radius: 8px;">删除此条目</button>
+				</div>
+			</div>
+		</div>
+		<!-- 表情管理页面 -->
+		<div class="page" id="emoticon-manage-page">
+			<div class="page-content" style="padding-bottom: 60px;"> <!-- 留出底部按钮空间 -->
+				<!-- 分类标签栏 -->
+				<div class="emoticon-tabs" id="emoticon-tabs">
+					<!-- JS 动态生成分类 -->
+				</div>
+
+				<!-- 表情列表网格 -->
+				<div class="emoticon-grid" id="emoticon-grid">
+					<!-- JS 动态生成表情卡片 -->
+				</div>
+				<!-- 【新增】分组管理区域 (默认隐藏) -->
+				<div id="emoticon-group-management" style="display: none;">
+					<div class="group-management-title">当前分组管理</div>
+					<div class="group-management-actions">
+						<button class="batch-btn rename-group-btn" id="rename-emoticon-group-btn">重命名</button>
+						<button class="batch-btn delete-group-btn" id="delete-emoticon-group-btn">删除分组</button>
+					</div>
+				</div>
+				<!-- 批量删除操作栏 (默认隐藏) -->
+				<div class="batch-action-bar" id="emoticon-batch-bar">
+					<button class="batch-btn batch-cancel" id="emoticon-batch-cancel">取消</button>
+					<div style="font-size: 15px;">已选 <span id="emoticon-batch-count">0</span> 个</div>
+					<button class="batch-btn batch-delete" id="emoticon-batch-confirm">删除</button>
+				</div>
+				
+				 <!-- 【位置调整】批量删除的入口按钮，不再是 fixed 定位 -->
+				<div class="emoticon-batch-starter">
+					<button class="batch-btn" id="start-emoticon-batch-btn" style="width: 100%; height: 44px; background: #fff; border: 1px solid #ff3b30; color: #ff3b30; border-radius: 8px;">
+						<i class="fas fa-trash-alt"></i> 批量管理
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- 添加表情页面 -->
+		<div class="page" id="emoticon-add-page">
+			<div class="page-content">
+				<div class="form-section">
+					<label class="form-label">分类名称</label>
+					<input type="text" id="emoticon-category-input" class="form-input" placeholder="例如：卖萌、搞笑、猫咪">
+				</div>
+				
+				<div class="form-section">
+					<label class="form-label">批量导入 (一行一个)</label>
+					<div style="font-size: 12px; color: #999; margin-bottom: 5px;">格式：图片URL [空格] 描述词</div>
+					<textarea id="emoticon-import-input" class="form-textarea" style="height: 300px; white-space: pre;" placeholder="https://example.com/1.jpg 开心&#10;https://example.com/2.jpg 难过"></textarea>
+				</div>
+			</div>
+		</div>
+		
+		<!-- 【新增】识图 API 设置页面 (V2 - 带拉取模型功能) -->
+		<div class="page" id="vision-api-setting-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #888; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;">
+					<i class="fas fa-info-circle"></i> 当您发送图片时，系统会优先调用此API分析图片内容。不填写则使用聊天API，请保证聊天API可以识图，否则识图功能无法调用。
+				</div>
+				<!-- 【新增】预设选择栏 -->
+				<div class="api-preset-bar">
+					<select id="vision-preset-select-menu">
+						<option value="">从预设加载配置...</option>
+					</select>
+					<button id="manage-vision-presets-btn">管理</button>
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">API基础地址 (Base URL)</label>
+					<input type="text" id="vision-api-url-input" class="api-setting-input" placeholder="例如: https://api.openai.com">
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">API密钥 (API Key)</label>
+					<input type="password" id="vision-api-key-input" class="api-setting-input" placeholder="请输入支持Vision的模型Key">
+				</div>
+				
+				<!-- 【核心修改】将原来的 input 改为 select + button -->
+				<div class="api-setting-group">
+					<label class="api-setting-label">模型 (Model)</label>
+					<div class="model-select-wrapper">
+						<select id="vision-model-select" class="api-setting-input">
+							<option value="">请先拉取或手动输入</option>
+						</select>
+						<button id="vision-fetch-models-btn" class="fetch-btn">拉取</button>
+					</div>
+					<div style="font-size: 12px; color: #999; margin-top: 5px;">推荐: gpt-4o, claude-3-5-sonnet, gemini-pro-vision</div>
+				</div>
+				
+				 <div class="api-setting-group">
+					<label class="api-setting-label">识别提示词 (Prompt)</label>
+					<textarea id="vision-prompt-input" class="form-textarea" style="height: 80px;" placeholder="默认: 请简要描述这张图片的内容，用于辅助聊天上下文。"></textarea>
+				</div>
+				<!-- 【新增】另存为预设按钮 -->
+				<button class="save-preset-btn" id="vision-save-as-preset-btn">另存为预设</button>
+			</div>
+		</div>
+		
+		
+		<!-- 朋友圈/论坛 API 设置页面 -->
+		<div class="page" id="social-api-setting-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #888; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;">
+					<i class="fas fa-info-circle"></i> 此API用于未来的朋友圈内容生成和论坛回帖功能。若此处留空，系统将自动使用默认的“聊天API”进行请求。
+				</div>
+
+				<!-- 预设选择栏 -->
+				<div class="api-preset-bar">
+					<select id="social-preset-select-menu">
+						<option value="">从预设加载配置...</option>
+					</select>
+					<button id="manage-social-presets-btn">管理</button>
+				</div>
+
+				<div id="social-api-settings-form">
+					<div class="api-setting-group">
+						<label class="api-setting-label">API基础地址 (Base URL)</label>
+						<input type="text" id="social-api-url-input" class="api-setting-input" placeholder="例如: https://api.openai.com">
+					</div>
+					<div class="api-setting-group">
+						<label class="api-setting-label">API密钥 (API Key)</label>
+						<input type="password" id="social-api-key-input" class="api-setting-input" placeholder="请输入API密钥">
+					</div>
+					<div class="api-setting-group">
+						<label class="api-setting-label">模型 (Model)</label>
+						<div class="model-fetch-container">
+							<select id="social-model-select">
+								<option value="">请先拉取或手动输入</option>
+							</select>
+							<button id="social-fetch-models-btn">
+								<i class="fas fa-sync-alt"></i> 拉取
+							</button>
+						</div>
+					</div>
+					<div class="api-setting-group">
+						<label class="api-setting-label">模型温度 (Temperature)</label>
+						<input type="text" inputmode="decimal" id="social-api-temp-input" class="api-setting-input" placeholder="建议 1.0 - 1.5 以增加创造性">
+					</div>
+				</div>
+				<button class="save-preset-btn" id="social-save-as-preset-btn">另存为预设</button>
+			</div>
+		</div>
+		<!-- 其他API设置页面 -->
+		<div class="page" id="other-api-setting-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #888; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;">
+					<i class="fas fa-info-circle"></i> 此API用于购物、外卖等其他生成类功能。如果不填，系统将默认使用“聊天API”进行生成。
+				</div>
+				<!-- 【新增】预设选择栏 -->
+				<div class="api-preset-bar">
+					<select id="other-preset-select-menu">
+						<option value="">从预设加载配置...</option>
+					</select>
+					<button id="manage-other-presets-btn">管理</button>
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">API基础地址 (Base URL)</label>
+					<input type="text" id="other-api-url-input" class="api-setting-input" placeholder="例如: https://api.openai.com">
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">API密钥 (API Key)</label>
+					<input type="password" id="other-api-key-input" class="api-setting-input" placeholder="请输入API密钥">
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">模型 (Model)</label>
+					<div class="model-fetch-container">
+						<select id="other-model-select">
+							<option value="">请先拉取或手动输入</option>
+						</select>
+						<button id="other-fetch-models-btn">
+							<i class="fas fa-sync-alt"></i> 拉取
+						</button>
+					</div>
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">模型温度 (Temperature)</label>
+					<input type="number" id="other-api-temp-input" class="api-setting-input" placeholder="默认 0.7" step="0.1">
+				</div>
+				<button class="save-preset-btn" id="other-save-as-preset-btn">另存为预设</button>
+			</div>
+		</div>
+		<!-- 【新增】Ta的一天 列表页面 -->
+		<div class="page" id="their-day-list-page">
+			<div class="page-content" id="their-day-list-container" style="padding-top: 10px;">
+				<!-- JS 动态渲染私聊角色列表 -->
+			</div>
+		</div>
+
+		<!-- 【新增】Ta的一天 详情页面 -->
+		<div class="page" id="their-day-detail-page">
+			<div class="page-content" style="background:#f2f2f6; padding: 15px; padding-bottom: 80px;">
+				<!-- 顶部开关 -->
+				<div style="background: #fff; border-radius: 12px; padding: 15px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+					<div>
+						<div style="font-weight: bold; font-size: 15px; color: #333;">每日自动刷新</div>
+						<div style="font-size: 12px; color: #999; margin-top: 4px;">开启后，每天后台自动生成最新日程</div>
+					</div>
+					<label class="switch">
+						<input type="checkbox" id="their-day-auto-switch">
+						<span class="slider"></span>
+					</label>
+				</div>
+				
+				<!-- 日程展示与编辑区 -->
+				<div id="their-day-schedule-container" style="background: #fff; border-radius: 12px; padding: 15px; min-height: 200px; box-shadow: 0 2px 10px rgba(0,0,0,0.03);">
+					
+					<!-- 空状态提示 (默认隐藏) -->
+					<div id="their-day-empty-state" style="text-align: center; color: #999; padding: 30px; display: none;">
+						暂无今日日程，请点击右上角刷新生成
+					</div>
+
+					<!-- 实际内容与编辑区 (默认隐藏) -->
+					<div id="their-day-content-area" style="display: none;">
+						
+						<!-- 纯文本展示 -->
+						<div id="their-day-display-box" style="white-space: pre-wrap; font-size: 14px; line-height: 1.6;"></div>
+						
+						<!-- 可输入编辑框 (点击修改后出现) -->
+						<textarea id="their-day-edit-box" class="form-textarea" style="display:none; width:100%; min-height:200px; font-size:14px; line-height:1.6; padding:10px; margin-bottom:10px;"></textarea>
+						
+						<!-- 底部操作按钮 -->
+						<div style="margin-top: 20px; text-align: center; border-top: 1px dashed #eee; padding-top: 15px;">
+							<button id="their-day-edit-btn" class="batch-btn" style="width: 100%; background: #f2f2f2; color: #333; height: 44px; font-weight: bold; border-radius: 8px;">
+								<i class="fas fa-edit"></i> 修改今日日程
+							</button>
+							<button id="their-day-save-btn" class="batch-btn" style="display:none; width: 100%; background: #07c160; color: #fff; height: 44px; font-weight: bold; border-radius: 8px;">
+								<i class="fas fa-save"></i> 保存修改
+							</button>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<!-- 【新增】赛博求签 列表页面 -->
+		<div class="page" id="cyber-fortune-list-page">
+			<div class="page-content" id="cyber-fortune-list-container" style="padding-top: 10px;">
+				<!-- JS 动态渲染用户和私聊角色列表 -->
+			</div>
+		</div>
+
+		<!-- 【新增】赛博求签 详情页面 -->
+		<div class="page" id="cyber-fortune-detail-page">
+			<div class="page-content" style="background:#f2f2f6; padding: 15px; text-align: center; height: 100vh; display: flex; flex-direction: column;">
+				
+				<div style="background: #fff; border-radius: 16px; padding: 30px 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-top: 20px;">
+					<div id="cyber-fortune-target-avatar" style="width: 80px; height: 80px; margin: 0 auto 15px auto; border-radius: 50%; overflow: hidden; background: #eee; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #ccc;">
+						<i class="fas fa-user"></i>
+					</div>
+					<div id="cyber-fortune-target-name" style="font-size: 18px; font-weight: bold; margin-bottom: 5px; color: #333;">名字</div>
+					<div style="font-size: 12px; color: #999; margin-bottom: 30px;">赛博求签，心诚则灵</div>
+
+					<!-- 求签按钮区 -->
+					<div id="cyber-fortune-action-area">
+						<button id="cyber-fortune-draw-btn" class="batch-btn" style="background: linear-gradient(135deg, #ff7e5f, #feb47b); color: white; width: 80%; height: 50px; font-size: 16px; font-weight: bold; border-radius: 25px; box-shadow: 0 4px 15px rgba(255,126,95,0.4); border: none;">
+							<i class="fas fa-hand-sparkles" style="margin-right: 8px;"></i>开始求签
+						</button>
+					</div>
+
+					<!-- 结果展示区 -->
+					<div id="cyber-fortune-result-area" style="display: none; margin-top: 20px;">
+						<div style="font-size: 14px; color: #888;">今日运势</div>
+						<div id="cyber-fortune-result-text" style="font-size: 42px; font-weight: bold; margin: 15px 0; color: #ff4d4f; letter-spacing: 5px;">大吉</div>
+						
+						<!-- AI 反应框 -->
+						<div id="cyber-fortune-ai-reaction" style="display: none; margin-top: 25px; padding: 15px; background: #fdf5f6; border-radius: 12px; text-align: left; font-size: 14px; color: #333; line-height: 1.6; border: 1px solid #fee;">
+							<!-- AI 反应动态填入 -->
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- 【新增】游戏开黑队友选择 列表页面 -->
+		<div class="page" id="game-coop-list-page">
+			<div class="page-content" id="game-coop-list-container" style="padding-top: 10px;">
+				<!-- JS 动态渲染私聊角色列表 -->
+			</div>
+		</div>
+
+		<!-- 【新增】FPS大乱斗 游戏页面 -->
+		<style>
+			/* 强制去除底部留白并禁止页面整体滑动 */
+			#fps-game-page .page-content {
+				padding-bottom: 0 !important; 
+				margin-bottom: 0 !important;
+				overflow: hidden !important; 
+			}
+
+			.fps-status-board { background: #1a1a1a; color: #fff; padding: 10px 5px; font-size: 13px; display: flex; justify-content: space-between; border-bottom: 2px solid #333; }
+			.fps-team-col { flex: 1; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
+			
+			/* ★ 核心修复：垂直居中对齐，队伍B镜像翻转 */
+			.fps-team-col div { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+			.fps-team-col.team-b div { flex-direction: row-reverse; } 
+			
+			/* ★ 名字防挤压，过长自动省略号 */
+			.fps-name-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; font-size: 12px; }
+			.fps-team-col.team-a .fps-name-text { text-align: left; }
+			.fps-team-col.team-b .fps-name-text { text-align: right; }
+			
+			.fps-c4-col { width: 60px; text-align: center; font-weight: bold; border-left: 1px solid #333; border-right: 1px solid #333; padding: 0 5px; margin: 0 5px; color: #ff9800; display: flex; flex-direction: column; justify-content: center; flex-shrink: 0;}
+			
+			/* ★ 核心修复：血条固定宽度，取消上下偏移 */
+			.fps-hp-bar { width: 45px; height: 6px; background: #333; border-radius: 3px; overflow: hidden; flex-shrink: 0; margin: 0 5px; }
+			.fps-hp-fill { height: 100%; background: #07c160; transition: width 0.3s ease; }
+			
+			.fps-log-container { flex: 1; overflow-y: auto; padding: 15px; background: #111; color: #ccc; font-size: 14px; line-height: 1.6; }
+			.fps-log-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #333; }
+			.fps-log-item.combat { color: #ff4d4f; }
+			
+			.fps-options-container { padding: 10px; background: #1a1a1a; border-top: 1px solid #333; display: flex; flex-direction: column; gap: 8px; }
+			.fps-btn { background: #2c2c2c; border: 1px solid #444; color: #e0e0e0; padding: 12px; border-radius: 8px; text-align: left; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+			.fps-btn:active { background: #444; }
+			
+			.fps-chat-container { height: 160px; background: #000; border-top: 1px solid #333; display: flex; flex-direction: column; }
+			.fps-chat-history { flex: 1; overflow-y: auto; padding: 10px; font-size: 13px; color: #ddd; }
+			.fps-chat-input-row { display: flex; padding: 8px; background: #111; border-top: 1px solid #222; }
+			.fps-chat-input-row input { flex: 1; background: #2c2c2c; border: 1px solid #444; color: #fff; padding: 8px 12px; border-radius: 18px; outline: none; }
+			.fps-chat-input-row button { background: #07c160; color: white; border: none; padding: 0 15px; margin-left: 8px; border-radius: 18px; font-weight: bold; }
+		</style>
+		
+		<div class="page" id="fps-game-page">
+			<div class="page-content" style="padding: 0; display: flex; flex-direction: column; height: 100%; background-color: #111;">
+				
+				<!-- 顶部战况板 -->
+				<div class="fps-status-board">
+					<div class="fps-team-col team-a" id="fps-team-a"></div>
+					<div class="fps-c4-col" id="fps-c4-status">C4<br>未安放</div>
+					<div class="fps-team-col team-b" id="fps-team-b"></div>
+				</div>
+
+				<!-- 游戏剧情滚动区 -->
+				<div class="fps-log-container" id="fps-game-log">
+					<div style="text-align: center; color: #666; margin-top: 20px;">[系统] 载入大乱斗地图中...</div>
+				</div>
+
+				<!-- 动作策略选项区 -->
+				<div class="fps-options-container" id="fps-game-options">
+					<!-- JS 动态填入选项按钮 -->
+				</div>
+
+				<!-- 底部独立聊天区 -->
+				<div class="fps-chat-container">
+					<div class="fps-chat-history" id="fps-chat-history"></div>
+					<div class="fps-chat-input-row">
+						<input type="text" id="fps-chat-input" placeholder="和队友说话 (如：掩护我，我去下包！)" autocomplete="off">
+						<button id="fps-chat-send-btn">发送</button>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<!-- 【新增】天气共享设置页面 -->
+		<div class="page" id="weather-setting-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #888; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; line-height: 1.5;">
+					<i class="fas fa-info-circle"></i> 天气将每天在后台自动刷新一次，并悄悄注入给选定的AI角色（仅告知天气，绝不泄露你的真实省市地址）。<br>
+					请使用<b>和风天气(QWeather)</b>的免费 Web API Key。
+				</div>
+
+				<!-- 状态展示卡片 -->
+				<div style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); border-radius: 12px; padding: 20px; color: #fff; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);">
+					<div style="font-size: 12px; opacity: 0.9; margin-bottom: 8px;">当前缓存天气 (自动刷新)</div>
+					<div id="weather-status-display" style="font-size: 15px; font-weight: bold; line-height: 1.6;">
+						暂无天气数据，请填写信息并保存/刷新
+					</div>
+					<div style="margin-top: 10px; text-align: right;">
+						<button id="weather-force-refresh-btn" style="background: rgba(255,255,255,0.2); border: none; color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; cursor: pointer;">
+							<i class="fas fa-sync-alt"></i> 手动刷新
+						</button>
+					</div>
+				</div>
+
+				 <!-- 【核心修改】新增 API Host 输入框 -->
+				<div class="api-setting-group">
+					<label class="api-setting-label">和风天气 API Host (专属域名)</label>
+					<input type="text" id="weather-api-host" class="api-setting-input" placeholder="例如: abcxyz.qweatherapi.com (在和风控制台查看)">
+				</div>
+				
+				<!-- 【核心修改】将 JWT Token 改回 API Key 输入框 -->
+				<div class="api-setting-group">
+					<label class="api-setting-label">和风天气 API Key (Web API)</label>
+					<input type="password" id="weather-api-key" class="api-setting-input" placeholder="输入从和风天气获取的 KEY (无需凭据ID)">
+				</div>
+				
+				
+				<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+					<div class="api-setting-group" style="flex: 1; margin-bottom: 0;">
+						<label class="api-setting-label">省份 (如：广东)</label>
+						<input type="text" id="weather-province" class="api-setting-input" placeholder="省份名">
+					</div>
+					<div class="api-setting-group" style="flex: 1; margin-bottom: 0;">
+						<label class="api-setting-label">城市 (如：深圳)</label>
+						<input type="text" id="weather-city" class="api-setting-input" placeholder="市/区名">
+					</div>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label" style="color: #3498db; font-weight: bold;">
+						<i class="fas fa-share-alt"></i> 选择要共享天气的角色 (可多选)
+					</label>
+					<div class="scroll-select-box" id="weather-sync-chars-container" style="height: 200px; background: #fdfdfd; border: 1px solid #eef7fc;">
+						<!-- JS 动态渲染 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 【修改】主动消息设置页面 (支持按角色独立设置时间) -->
+		<div class="page" id="active-msg-setting-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #888; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px; line-height: 1.5;">
+					<i class="fas fa-info-circle"></i> 勾选后，系统会在非免打扰时间段内，以上次最后一条消息为起点，根据每个角色独立设定的间隔时间内随机触发AI主动给你发消息。
+				</div>
+
+				<div style="display: flex; gap: 10px; margin-bottom: 15px;">
+					<div class="api-setting-group" style="flex: 1; margin-bottom: 0;">
+						<label class="api-setting-label">全局免打扰开始</label>
+						<input type="time" id="active-msg-quiet-start" class="api-setting-input" value="23:00">
+					</div>
+					<div class="api-setting-group" style="flex: 1; margin-bottom: 0;">
+						<label class="api-setting-label">全局免打扰结束</label>
+						<input type="time" id="active-msg-quiet-end" class="api-setting-input" value="08:00">
+					</div>
+				</div>
+
+				<div class="form-section">
+					<label class="form-label" style="color: #07c160; font-weight: bold;">
+						<i class="fas fa-comments"></i> 允许主动发消息的角色 (独立配置)
+					</label>
+					<div class="scroll-select-box" id="active-msg-chars-container" style="height: 400px; background: #fdfdfd; border: 1px solid #eef7fc; padding: 10px;">
+						<!-- JS 动态渲染 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 购物页面 -->
+		<div class="page" id="shopping-page">
+			<div class="page-content" style="padding: 0; background: #f5f5f5;">
+				<!-- 顶部 Tab 切换 -->
+				<div class="shopping-tabs" id="shopping-tabs">
+					<div class="shop-tab active" data-mode="shopping">购物</div>
+					<div class="shop-tab" data-mode="delivery">外卖</div>
+				</div>
+
+				<!-- 搜索与筛选控制台 -->
+				<div class="shopping-control-panel">
+					<div class="shop-search-row">
+						<input type="text" id="shop-keyword-input" placeholder="输入你想找的商品/外卖...">
+					</div>
+					<div class="shop-filter-row">
+						<div class="shop-price-inputs">
+							<input type="number" id="shop-min-price" placeholder="最低价">
+							<span>-</span>
+							<input type="number" id="shop-max-price" placeholder="最高价">
+						</div>
+						<button id="shop-generate-btn"><i class="fas fa-magic"></i> AI 搜索</button>
+					</div>
+				</div>
+
+				<!-- 结果展示区 -->
+				<div id="shopping-result-container" class="shopping-result-container">
+					<div class="shop-empty-state">
+						<i class="fas fa-store"></i>
+						<p>输入关键词，让AI为你生成专属列表</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 【新增】朋友圈页面 -->
+		<div class="page" id="moments-page">
+			<div class="page-content" style="padding: 0;"> <!-- 关键: 去掉内边距，让内容顶到头 -->
+				
+				<!-- 朋友圈头部：封面 + 用户信息 -->
+				<div class="moments-header">
+					<div id="moments-cover-img"></div> <!-- 封面图容器 -->
+					<div class="moments-user-info">
+						<span class="moments-user-name" id="moments-user-name">用户名</span>
+						<div class="moments-user-avatar" id="moments-user-avatar">
+							<i class="fas fa-user"></i>
+						</div>
+					</div>
+				</div>
+				<!-- 下拉刷新 -->
+				<div id="moments-refresh-loader" style="height: 0; overflow: hidden; transition: height 0.2s; display: flex; justify-content: center; align-items: center; background-color: #f2f2f2; color: #666; font-size: 13px;">
+					<div style="display: flex; align-items: center; gap: 8px;">
+						<i class="fas fa-arrow-down" id="moments-refresh-icon" style="transition: transform 0.3s;"></i>
+						<span id="moments-refresh-text">刷新朋友圈</span>
+					</div>
+				</div>
+				<!-- 朋友圈动态列表容器 -->
+				<div class="moments-feed" id="moments-feed-container">
+					<!-- JS 动态渲染朋友圈内容 -->
+				</div>
+
+			</div>
+		</div>
+		
+		<!-- 【新增】朋友圈设置页面 -->
+		<div class="page" id="moments-setting-page">
+			<div class="page-content" style="padding: 20px;">
+				
+				 <!-- 1. 可发布角色 -->
+				<div class="form-section">
+					<!-- 【核心修正】Label 标签现在位于 div 的外部，作为其标题 -->
+					<label class="form-label">允许发布朋友圈的角色 (可多选)</label>
+					<div class="scroll-select-box" id="moments-postable-chars-container" style="height: 200px;">
+						<!-- JS 会在这里动态渲染角色列表 -->
+					</div>
+				</div>
+
+				<!-- 2. 记忆互通开关 -->
+				<div class="form-section">
+					<div class="switch-container">
+						<span class="form-label" style="margin-bottom: 0;">朋友圈与聊天记忆互通</span>
+						<label class="switch">
+							<input type="checkbox" id="moments-memory-sync-switch">
+							<span class="slider"></span>
+						</label>
+					</div>
+					 <div style="font-size: 12px; color: #888; margin-top: 8px; line-height: 1.4;">
+						开启后，AI角色在发朋友圈时，会参考近期与您的聊天内容；同时，您与角色在朋友圈的互动（如评论），也可能被角色在聊天中提及。
+					</div>
+				</div>
+
+				<!-- 3. 记忆存储条数 -->
+				<div class="form-section">
+					<label class="form-label" for="moments-memory-limit-input">朋友圈记忆存储条数</label>
+					<input type="number" id="moments-memory-limit-input" class="form-input" placeholder="例如: 10">
+					<div style="font-size: 12px; color: #888; margin-top: 5px;">
+						朋友圈存储的最大记忆条数，同时决定AI在生成新动态时，会参考最近多少条朋友圈历史。
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<!-- 【新增】发布朋友圈页面 -->
+		<div class="page" id="post-moment-page">
+			<div class="page-content">
+				<!-- 1. 身份选择 -->
+				<div class="form-section">
+					<label class="form-label">发布身份 (选择面具)</label>
+					<select id="post-persona-select" class="form-select">
+						<!-- JS 动态填充 -->
+					</select>
+					<!-- 选中身份的预览 -->
+					<div class="persona-preview-card" id="post-persona-preview">
+						<div class="pp-avatar">
+							<i class="fas fa-user"></i>
+						</div>
+						<div class="pp-info">
+							<div class="pp-name">用户名</div>
+							<div class="pp-mask">当前无面具设定</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 2. 文字内容 -->
+				<div class="form-section">
+					<label class="form-label">此刻的想法...</label>
+					<textarea id="post-moment-text" class="form-textarea" style="height: 120px;" placeholder="分享你的生活..."></textarea>
+				</div>
+				<!-- 3. 真实图片上传区域 (新增) -->
+				<div class="form-section">
+					<label class="form-label">上传真实图片 (最多4张，需识图)</label>
+					<div style="display: flex; gap: 10px; flex-wrap: wrap;" id="post-real-imgs-container">
+						<div class="character-avatar-uploader" id="post-real-img-uploader" style="width: 60px; height: 60px; border-radius: 4px; font-size: 20px;">
+							<i class="fas fa-plus"></i>
+						</div>
+					</div>
+					<input type="file" id="post-real-img-input" accept="image/*" multiple style="display: none;">
+				</div>
+				<!-- 4. 图片数量 -->
+				<div class="form-section">
+					<label class="form-label">图片数量 (虚拟)</label>
+					<input type="number" id="post-img-count" class="form-input" min="0" max="4" placeholder="0">
+				</div>
+				
+				<!-- 5. 图片描述输入区域 -->
+				<div id="post-img-inputs-container">
+					<!-- JS 动态生成 -->
+				</div>
+			</div>
+		</div>
+		<!-- 【新增】语音 API 设置页面 (Minimax) -->
+		<div class="page" id="voice-api-setting-page">
+			<div class="page-content">
+				<div style="font-size: 12px; color: #888; margin-bottom: 20px; padding: 10px; background: #f0f0f0; border-radius: 8px;">
+					<i class="fas fa-info-circle"></i> 当前仅支持 Minimax 语音合成服务。请在 Minimax 开放平台获取 Group ID 和 API Key。
+				</div>
+				
+				<div class="api-setting-group">
+					<label class="api-setting-label">Minimax Group ID</label>
+					<input type="text" id="voice-group-id-input" class="api-setting-input" placeholder="请输入 Group ID">
+				</div>
+
+				<div class="api-setting-group">
+					<label class="api-setting-label">Minimax API Key</label>
+					<input type="password" id="voice-api-key-input" class="api-setting-input" placeholder="请输入 API Key">
+				</div>
+				<div class="api-setting-group">
+					<label class="api-setting-label">全局通用用户声音ID</label>
+					<input type="text" id="voice-user-id-input" class="api-setting-input" placeholder="例如: male-qn-qingse">
+				</div>
+			</div>
+		</div>
+		<!-- 【新增】心动遇见 - 填写表单页 -->
+        <div class="page" id="meet-form-page">
+            <div class="page-content meet-page-bg">
+                
+                <!-- 婚介APP风格头部 -->
+                <div class="meet-header">
+                    <i class="fas fa-heart meet-header-icon"></i>
+                    <h2 class="meet-header-title">NN红娘匹配中心</h2>
+                    <p class="meet-header-subtitle">告诉我们你心仪的那个Ta是什么样子的</p>
+                </div>
+
+                <!-- 表单选项 -->
+                <div class="meet-form-card">
+                    <label class="meet-form-label">Ta的性别</label>
+                    <select id="meet-gender" class="form-select meet-input">
+                        <option value="不限">不限 / 其他</option>
+                        <option value="男">男生</option>
+                        <option value="女">女生</option>
+                    </select>
+                </div>
+
+                <div class="meet-form-card">
+                    <label class="meet-form-label">Ta的性格特征</label>
+                    <input type="text" id="meet-personality" class="form-input meet-input" placeholder="如：温柔、病娇、腹黑、幽默...">
+                </div>
+
+                <div class="meet-form-card">
+                    <label class="meet-form-label">Ta的职业或身份</label>
+                    <input type="text" id="meet-job" class="form-input meet-input" placeholder="如：霸总、大学生、医生、魅魔...">
+                </div>
+
+                <div class="meet-form-card">
+                    <label class="meet-form-label">其他具体要求 / 偏好 / 背景故事</label>
+                    <textarea id="meet-detail" class="form-textarea meet-input" style="height:100px;" placeholder="例如：白切黑，身高185，有个妹妹，我们是在一次雨天相遇的... 越详细越好哦！"></textarea>
+                </div>
+
+                <button id="meet-generate-btn" class="batch-btn meet-btn-primary">开始寻觅命中注定的Ta</button>
+            </div>
+        </div>
+
+        <!-- 【新增】心动遇见 - 匹配结果页 -->
+        <div class="page" id="meet-result-page">
+            <div class="page-content meet-page-bg">
+                
+                <!-- 匹配结果档案卡 -->
+                <div class="meet-result-card">
+                    <!-- 顶部悬浮头像框 -->
+                    <div class="meet-result-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    
+                    <div id="meet-result-name" class="meet-result-name">角色名字</div>
+                    <div class="meet-result-tag"><i class="fas fa-check-circle"></i> NN红娘独家推荐</div>
+                    
+                    <div id="meet-result-brief" class="meet-result-brief">
+                        红娘正在为您努力寻找中...
+                    </div>
+                </div>
+                
+                <!-- 底部操作按钮 -->
+                <div class="meet-result-actions">
+                    <button id="meet-accept-btn" class="batch-btn meet-btn-accept">
+                        <i class="fas fa-comment-dots"></i> 就是Ta了！添加联系人
+                    </button>
+                    <button id="meet-regenerate-btn" class="batch-btn meet-btn-outline">
+                        <i class="fas fa-sync-alt"></i> 不太满意，重新匹配
+                    </button>
+                </div>
+                
+            </div>
+        </div>
+		<!-- 【新增】收藏列表页面 -->
+		<div class="page" id="favorites-page">
+			<div class="page-content" style="padding: 0; display: flex; flex-direction: column; height: 100%;">
+				<!-- 搜索栏容器 -->
+				<div class="search-bar-container" style="margin: 15px; flex-shrink: 0; background: #fff; border: 1px solid #eee;">
+					<i class="fas fa-search" style="color: #999; margin-right: 8px;"></i>
+					<input type="text" id="fav-search-input" placeholder="搜索收藏内容或角色名...">
+					<i class="fas fa-times-circle" id="fav-search-clear" style="color: #ccc; cursor: pointer; display: none;"></i>
+				</div>
+				<!-- 列表容器 -->
+				<div id="favorites-list-container" style="flex: 1; overflow-y: auto; padding: 0 15px 20px 15px;">
+					<!-- JS 动态渲染收藏卡片 -->
+				</div>
+			</div>
+		</div>
+		
+		<!-- 【新增】日记角色列表页面 -->
+		<div class="page" id="diary-list-page">
+			<div class="page-content" id="diary-list-container" style="padding-top: 10px;">
+				<!-- JS 动态渲染私聊角色列表 -->
+			</div>
+		</div>
+
+		<!-- 【新增】日记详情页面 (排版还原图片样式) -->
+		<div class="page" id="diary-detail-page">
+			<div class="page-content" style="background:#f2f2f6; padding: 15px; padding-bottom: 80px;">
+				<!-- 截图区域 -->
+				<div id="diary-export-wrapper" class="diary-wrapper">
+					<!-- 顶部：头像与日期 -->
+					<div class="diary-header">
+						<!-- 【修改】左上角使用圆形头像遮罩 -->
+						<div class="diary-top-avatar" id="diary-avatar-display">
+							<i class="fas fa-user"></i>
+						</div>
+						<div class="diary-date-area">
+							<div class="diary-day" id="diary-day-display">7</div>
+							<div class="diary-date-info">
+								<div id="diary-weekday-display">星期日</div>
+								<!-- 【修改】显示角色名记录 -->
+								<div id="diary-lunar-display" style="font-size:10px; color:#888;">角色名 记录</div>
+							</div>
+						</div>
+					</div>
+					
+					<!-- 装饰点线 -->
+					<div class="diary-dots-line"></div>
+
+					<!-- 主体双列布局 -->
+					<div class="diary-body">
+						<!-- 左列：各类状态打卡 -->
+						<div class="diary-left-col">
+							<!-- 睡眠与运动并排 -->
+							<div style="display:flex; gap:8px; margin-bottom:8px;">
+								<div class="diary-box" style="flex:1;">
+									<div class="diary-box-title"><i class="fas fa-bed"></i> SLEEP</div>
+									<div class="diary-box-content" id="diary-sleep">...</div>
+								</div>
+								<div class="diary-box" style="flex:1;">
+									<div class="diary-box-title"><i class="far fa-heart"></i> FIT</div>
+									<div class="diary-box-content" id="diary-fit">...</div>
+								</div>
+							</div>
+							<!-- 饮食 -->
+							<div class="diary-box">
+								<div class="diary-box-title"><i class="fas fa-coffee"></i> MEAL</div>
+								<div class="diary-box-content" id="diary-meal" style="min-height: 60px;">...</div>
+							</div>
+							<!-- 护理 -->
+							<div class="diary-box">
+								<div class="diary-box-title"><i class="fas fa-leaf"></i> CARE</div>
+								<div class="diary-box-content" id="diary-care" style="min-height: 40px;">...</div>
+							</div>
+							<!-- 购买/清单 -->
+							<div class="diary-box">
+								<div class="diary-box-title"><i class="fas fa-receipt"></i> BUY</div>
+								<div class="diary-box-content" id="diary-buy" style="min-height: 40px;">...</div>
+							</div>
+							<!-- 书籍与影视并排 -->
+							<div style="display:flex; gap:8px;">
+								<div class="diary-box" style="flex:1;">
+									<div class="diary-box-title"><i class="fas fa-book"></i> BOOK</div>
+									<div class="diary-box-content" id="diary-book">...</div>
+								</div>
+								<div class="diary-box" style="flex:1;">
+									<div class="diary-box-title"><i class="fas fa-film"></i> MOVIE</div>
+									<div class="diary-box-content" id="diary-movie">...</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- 右列：时间线正文 -->
+						<div class="diary-right-col">
+							<!-- 上午 -->
+							<div class="timeline-block">
+								<div class="timeline-time">6</div>
+								<div class="timeline-content" id="diary-content-6">...</div>
+							</div>
+							<!-- 中午/下午 -->
+							<div class="timeline-block">
+								<div class="timeline-time">12</div>
+								<div class="timeline-content" id="diary-content-12">...</div>
+							</div>
+							<!-- 晚上 -->
+							<div class="timeline-block">
+								<div class="timeline-time">18</div>
+								<div class="timeline-content" id="diary-content-18">...</div>
+							</div>
+						</div>
+					</div>
+					<!-- 【修改】右下角品牌名 -->
+					<div class="diary-footer-brand">NN JOURNAL</div>
+				</div>
+				<!-- 底部导出按钮 -->
+				<button id="diary-export-action-btn" class="batch-btn" style="width: 100%; height: 50px; background: #6a8bad; color: #fff; border-radius: 8px; margin-top: 20px; font-weight: bold; box-shadow: 0 4px 10px rgba(106,139,173,0.3);">
+					<i class="fas fa-download"></i> 保存日记为图片
+				</button>
+			</div>
+		</div>
+	</div>
+	<!-- 【新增】钱包页面 -->
+        <div class="page" id="wallet-page">
+            <div class="page-content" style="padding: 0;">
+                <!-- 钱包头部：余额展示 -->
+                <div class="wallet-header">
+                    <!-- 左上角返回键 -->
+                    <div id="wallet-back-btn" class="wallet-back-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="wallet-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="wallet-balance-title">我的余额</div>
+                    <div class="wallet-balance-amount">¥ <span id="wallet-balance-val">500.00</span></div>
+                </div>
+                <!-- 交易明细 -->
+                <div class="transaction-section">
+                    <div class="transaction-title">账户明细</div>
+                    <div class="transaction-list" id="transaction-list-container">
+                        <!-- JS动态渲染 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+	
+	
+		<!-- ============================================================ -->
+		<!-- 【新增】视频通话相关界面 -->
+		<!-- ============================================================ -->
+
+		<!-- 1. 视频通话主界面 -->
+		<div class="page" id="video-call-page" style="background-color: #000; z-index: 2000;">
+			<div class="call-overlay">
+				<!-- 顶部：最小化 & 计时 -->
+				<div class="call-top-bar">
+					<button class="call-minimize-btn" id="call-minimize-btn">
+						<i class="fas fa-compress-alt"></i>
+					</button>
+					<div class="call-timer" id="call-timer-display">00:00</div>
+					<div style="width: 30px;"></div> <!-- 占位保持居中 -->
+				</div>
+
+				<!-- 中间：显示对方画面(模拟) & 文本流 -->
+				<div class="call-content-area" id="call-content-area">
+					<!-- 模拟的视频背景占位 -->
+					<div class="video-bg-placeholder" id="video-bg-placeholder">
+						<i class="fas fa-video-slash"></i>
+						<span>对方摄像头画面</span>
+					</div>
+					<!-- 对话文本流容器 -->
+					<div class="call-text-stream" id="call-text-stream">
+						<!-- 动态插入对话 -->
+					</div>
+				</div>
+
+				<!-- 底部：输入框 & 挂断 -->
+				<div class="call-bottom-area">
+					<div class="call-input-wrapper">
+						<textarea id="call-input-text" placeholder="输入内容..." rows="1"></textarea>
+						<button id="call-send-btn">发送</button>
+					</div>
+					<div class="call-action-wrapper">
+						<button class="call-hangup-btn" id="call-hangup-btn">
+							<i class="fas fa-phone-slash"></i>
+						</button>
+						<span style="color:rgba(255,255,255,0.6); font-size:12px; margin-top:5px;">挂断</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 2. 悬浮小窗 (微信风格) -->
+		<div id="mini-call-float">
+			<span id="mini-call-timer">00:00</span>
+		</div>
+
+		<!-- 3. 来电请求界面 (AI发起时使用) -->
+		<div class="modal-mask" id="incoming-call-modal">
+			<div class="incoming-call-content">
+				<div class="incoming-avatar" id="incoming-call-avatar"></div>
+				<div class="incoming-name" id="incoming-call-name">角色名</div>
+				<div class="incoming-type">邀请你进行视频通话...</div>
+				
+				<div class="incoming-actions">
+					<div class="action-btn-group">
+						<button class="hangup-btn" id="reject-call-btn"><i class="fas fa-phone-slash"></i></button>
+						<span>拒绝</span>
+					</div>
+					<div class="action-btn-group">
+						<button class="answer-btn" id="accept-call-btn"><i class="fas fa-video"></i></button>
+						<span>接听</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 4. 通话记录详情弹窗 -->
+		<div class="modal-mask" id="call-log-modal">
+			<div class="center-modal-content" style="height: 80%; max-height: 600px; display: flex; flex-direction: column;">
+				<div class="center-modal-title">通话记录详情</div>
+				<div id="call-log-detail-list" style="flex: 1; overflow-y: auto; background: #f5f5f5; padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+					<!-- JS 渲染 -->
+				</div>
+				<button class="modal-btn-primary" id="close-call-log-btn">关闭</button>
+			</div>
+		</div>
+		<!-- 【新增】论坛 @ 角色选择弹窗 -->
+		<div class="modal-mask" id="forum-at-modal">
+			<div class="center-modal-content" style="height: 60%; max-height: 500px; display: flex; flex-direction: column;">
+				<div class="center-modal-title">选择要 @ 的角色</div>
+				<div style="flex: 1; overflow-y: auto; margin: 10px 0;" id="forum-at-list-container">
+					<!-- JS 动态渲染角色列表 -->
+				</div>
+				<button class="modal-btn-secondary" id="forum-at-cancel-btn" style="width: 100%;">取消</button>
+			</div>
+		</div>
+    <!-- ============================================================ -->
+    <!-- 【弹窗区域】-->
+    <!-- ============================================================ -->
+    <div class="modal-mask" id="upload-modal"><div class="upload-modal-content"><div class="upload-modal-btn" id="upload-from-file">从文件上传</div><div class="upload-modal-btn" id="upload-from-album">从相册上传</div><div class="upload-modal-btn" id="upload-cancel">取消</div></div></div>
+    <div class="modal-mask" id="save-preset-modal"><div class="center-modal-content"><div class="center-modal-title">保存为预设</div><input type="text" id="preset-name-input" class="center-modal-input" placeholder="请输入预设名称"><div class="center-modal-buttons"><button class="modal-btn-secondary" id="cancel-save-preset-btn">取消</button><button class="modal-btn-primary" id="confirm-save-preset-btn">保存</button></div></div></div>
+    <div class="modal-mask" id="manage-presets-modal"><div class="center-modal-content"><div class="center-modal-title">管理预设</div><div id="preset-list-container"></div><div class="center-modal-buttons"><button class="modal-btn-primary" id="close-manage-preset-btn" style="flex: none; width: 100%;">关闭</button></div></div></div>
+    <div class="modal-mask" id="cover-change-modal">
+        <div class="center-modal-content">
+            <div class="center-modal-title">更换朋友圈封面</div>
+            <input type="text" id="cover-url-input" class="center-modal-input" placeholder="请输入图片链接(URL)">
+            <div class="center-modal-buttons">
+                <button class="modal-btn-secondary" id="cancel-change-cover-btn">取消</button>
+                <button class="modal-btn-primary" id="confirm-change-cover-btn">确认</button>
+            </div>
+        </div>
+    </div>
+	
+	<div class="modal-mask" id="edit-msg-modal">
+        <div class="center-modal-content">
+            <div class="center-modal-title">编辑消息</div>
+            <textarea id="edit-msg-input" class="form-textarea" style="height: 120px; margin-bottom: 15px;" placeholder="在此修改消息内容..."></textarea>
+            <div class="center-modal-buttons">
+                <button class="modal-btn-secondary" id="cancel-edit-msg-btn">取消</button>
+                <button class="modal-btn-primary" id="confirm-edit-msg-btn">确认修改</button>
+            </div>
+        </div>
+    </div>
+	<!-- [新增] 导出角色选项弹窗 -->
+    <div class="modal-mask" id="export-character-modal">
+        <div class="center-modal-content">
+            <div class="center-modal-title">导出选项</div>
+            <div style="font-size: 13px; color: #666; margin-bottom: 10px; text-align: center;">请选择您要导出的内容范围</div>
+            <div class="center-modal-buttons" style="flex-direction: column; gap: 10px;">
+                <button class="modal-btn-primary" id="export-char-only-btn" style="width: 100%; background-color: #07c160;">仅导出角色</button>
+                <button class="modal-btn-primary" id="export-char-full-btn" style="width: 100%; background-color: #1565c0;">导出角色及聊天记录</button>
+                <button class="modal-btn-secondary" id="export-char-cancel-btn" style="width: 100%;">取消</button>
+            </div>
+        </div>
+    </div>
+    <!-- 【新增】模拟语音输入弹窗 -->
+	<div class="modal-mask" id="voice-input-modal">
+		<div class="center-modal-content">
+			<div class="center-modal-title">发送语音</div>
+			<div style="font-size: 12px; color: #999; margin-bottom: 10px;">
+				请输入文本，系统将根据字数自动生成语音条时长。
+			</div>
+			<textarea id="voice-text-input" class="form-textarea" style="height: 100px;" placeholder="说话内容..."></textarea>
+			<div class="center-modal-buttons">
+				<button class="modal-btn-secondary" id="voice-input-cancel">取消</button>
+				<button class="modal-btn-primary" id="voice-input-confirm">发送语音</button>
+			</div>
+		</div>
+	</div>
+    <!-- ============================================================ -->
+    <!-- 【隐藏输入框区域】--> 
+    <!-- ============================================================ -->
+    <input type="file" id="avatar-upload-file" accept="image/*">
+    <input type="file" id="backup-upload-file" accept=".json">
+    <input type="file" id="character-avatar-upload-input" accept="image/*">
+	<input type="file" id="setting-avatar-input" accept="image/*" style="display: none;">
+	<input type="file" id="setting-bg-input" accept="image/*" style="display: none;">
+	<input type="file" id="global-bg-file-input" accept="image/*" style="display: none;">
+	<input type="file" id="forum-mask-avatar-input" accept="image/*" style="display: none;">
+
+    <!-- ============================================================ -->
+    <!-- 【底部导航栏】-->
+    <!-- ============================================================ -->
+    <div class="bottom-nav" id="main-bottom-nav">
+        <div class="nav-item active" data-page="chat-page" data-top="chat-top">
+            <div class="nav-item-icon-wrapper">
+                <i class="fas fa-comment"></i>
+                <div class="nav-item-unread-dot"></div>
+            </div>
+            <span>对话</span>
+        </div>
+        <div class="nav-item" data-page="contact-page" data-top="contact-top"><i class="fas fa-address-book"></i><span>通讯录</span></div>
+        <div class="nav-item" data-page="discover-page" data-top="discover-top"><i class="fas fa-compass"></i><span>发现</span></div>
+        <div class="nav-item" data-page="me-page" data-top="me-top"><i class="fas fa-user"></i><span>我</span></div>
+    </div>
+
+    <div class="chat-input-bar" id="chat-input-bar" style="display: none;">
+        <div class="reply-preview-bar" id="reply-preview-bar">
+            <div class="reply-text" id="reply-preview-text">引用内容...</div>
+            <div class="reply-close-btn" id="reply-close-btn"><i class="fas fa-times-circle"></i></div>
+        </div>
+        <div class="chat-bar-group">
+           <button class="chat-bar-btn" id="emoticon-toggle-btn"> 
+				<i class="far fa-smile"></i>
+			</button>
+            <button class="chat-bar-btn" id="chat-attach-btn"><i class="fas fa-paperclip"></i></button>
+        </div>
+        <div class="chat-bar-center">
+			<textarea class="chat-bar-input" placeholder="发消息..." rows="1" autocomplete="off"></textarea>
+		</div>
+        <div class="chat-bar-group">
+            <button class="chat-bar-btn send-btn"><i class="fas fa-paper-plane"></i></button>
+            <button class="chat-bar-btn ai-btn"><i class="fas fa-magic"></i></button>
+        </div>
+		
+		
+		<!-- ============================================================ -->
+		<!-- 【新增】表情选择器上拉菜单 -->
+		<!-- ============================================================ -->
+		<div id="emoticon-picker-modal">
+			<div class="emoticon-picker-content">
+				<!-- 分类标签栏 -->
+				<div class="emoticon-picker-tabs" id="emoticon-picker-tabs">
+					<!-- JS 动态生成 -->
+				</div>
+				<!-- 表情网格 -->
+				<div class="emoticon-picker-grid" id="emoticon-picker-grid">
+					<!-- JS 动态生成 -->
+				</div>
+			</div>
+		</div>
+		<!-- 2. 大功能面板遮罩层 -->
+		<div id="function-panel-modal" style="align-items: flex-end; background: transparent;">
+			<!-- 面板主体 -->
+			<div class="function-panel-content">
+				<div class="function-grid">
+					<!-- 1. 发送图片 (真实) -->
+					<div class="func-item" id="btn-func-album">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-images" style="color: #666;"></i>
+						</div>
+						<div class="func-text">相册</div>
+					</div>
+
+					<!-- 2. 虚拟图片 (原拍摄/魔法) -->
+					<div class="func-item" id="btn-func-camera">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-camera" style="color: #666;"></i>
+						</div>
+						<div class="func-text">拍摄(虚拟)</div>
+					</div>
+
+					<!-- 3. 语音通话 -->
+					<div class="func-item" id="btn-func-call">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-phone-alt" style="color: #666;"></i>
+						</div>
+						<div class="func-text">语音通话</div>
+					</div>
+
+					<!-- 4. 视频通话 -->
+					<div class="func-item" id="btn-func-video">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-video" style="color: #666;"></i>
+						</div>
+						<div class="func-text">视频通话</div>
+					</div>
+
+					<!-- 5. 红包 -->
+					<div class="func-item" id="btn-func-redpacket">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-envelope" style="color: #666;"></i>
+						</div>
+						<div class="func-text">红包</div>
+					</div>
+
+					<!-- 6. 转账 -->
+					<div class="func-item" id="btn-func-transfer">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-exchange-alt" style="color: #666;"></i>
+						</div>
+						<div class="func-text">转账</div>
+					</div>
+
+					<!-- 7. 发送语音 -->
+					<div class="func-item" id="btn-func-voice-msg">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-microphone" style="color: #666;"></i>
+						</div>
+						<div class="func-text">语音</div>
+					</div>
+
+					<!-- 8. 文件 -->
+					<div class="func-item" id="btn-func-file">
+						<div class="func-icon" style="background-color: #f2f2f2;">
+							<i class="fas fa-folder" style="color: #666;"></i>
+						</div>
+						<div class="func-text">文件</div>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+    
+    <div class="batch-action-bar" id="batch-action-bar">
+        <button class="batch-btn batch-cancel" id="batch-cancel-btn">取消</button>
+        <div style="font-size: 15px;">已选 <span id="batch-count">0</span> 条</div>
+        <button class="batch-btn batch-delete" id="batch-confirm-btn" disabled>删除</button>
+    </div>
+	
+	<!-- 【新增】朋友圈评论弹窗 (带身份选择) -->
+	<div class="modal-mask" id="moments-comment-modal" style="align-items: flex-end;">
+		<div class="upload-modal-content" style="background: #f7f7f7; padding: 15px;">
+			<!-- 1. 顶部栏：标题与取消 -->
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+				<span style="font-size: 14px; color: #666;" id="comment-modal-title">发表评论</span>
+				<i class="fas fa-times" id="close-comment-modal-btn" style="color: #999; padding: 5px; cursor: pointer;"></i>
+			</div>
+
+			<!-- 2. 身份选择 -->
+			<div style="background: #fff; border-radius: 8px; padding: 10px; margin-bottom: 10px; display: flex; align-items: center;">
+				<div style="font-size: 14px; font-weight: bold; margin-right: 10px; white-space: nowrap;">身份:</div>
+				<select id="comment-persona-select" style="flex: 1; border: none; background: transparent; font-size: 14px; outline: none;">
+					<!-- JS 动态填充 -->
+				</select>
+			</div>
+
+			<!-- 3. 输入框与发送按钮 -->
+			<div style="display: flex; gap: 10px; align-items: flex-end;">
+				<textarea id="comment-input" class="form-textarea" style="height: 80px; flex: 1; border: none; padding: 10px;" placeholder="评论千万条，友善第一条..."></textarea>
+				<button id="submit-comment-btn" style="width: 60px; height: 36px; background-color: #07c160; color: #fff; border: none; border-radius: 4px; font-size: 14px;">发送</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 【新增】点赞身份选择弹窗 -->
+	<div class="modal-mask" id="moments-like-modal">
+		<div class="center-modal-content">
+			<div class="center-modal-title">选择点赞身份</div>
+			
+			<div style="margin: 15px 0;">
+				<label style="display:block; color:#666; font-size:12px; margin-bottom:5px;">当前身份:</label>
+				<select id="like-persona-select" class="form-select" style="width: 100%;">
+					<!-- JS 动态填充 -->
+				</select>
+			</div>
+
+			<div class="center-modal-buttons">
+				<button class="modal-btn-secondary" id="cancel-like-btn">取消</button>
+				<button class="modal-btn-primary" id="confirm-like-btn">确定</button>
+			</div>
+		</div>
+	</div>
+	<!-- 视频通话气泡编辑弹窗 -->
+	<div id="video-edit-modal" class="modal-mask">
+		<div class="center-modal-content" style="background: #222; border: 1px solid #444;">
+			<h3 style="color: #fff; margin-bottom: 15px;">编辑内容</h3>
+			<!-- 多行文本框 -->
+			<textarea id="video-edit-input" 
+					  style="width: 100%; height: 150px; background: #333; color: #fff; border: 1px solid #555; padding: 10px; border-radius: 8px; resize: none; font-size: 14px; line-height: 1.5;"></textarea>
+			<div class="center-modal-btns" style="margin-top: 15px; display: flex; justify-content: flex-end; gap: 10px;">
+				<button id="video-edit-cancel" style="padding: 8px 15px; background: #444; color: #fff; border: none; border-radius: 4px; cursor: pointer;">取消</button>
+				<button id="video-edit-save" style="padding: 8px 15px; background: #07c160; color: #fff; border: none; border-radius: 4px; cursor: pointer;">保存</button>
+			</div>
+		</div>
+	</div>	
+	<!-- ============================================================ -->
+	<!-- 【新增】角色心声状态面板 (V2.0) -->
+	<!-- ============================================================ -->
+	<div id="inner-status-modal"> <!-- 不再需要 overlay 和 header -->
+		<div class="status-content">
+			<div class="status-item">
+				<span class="status-label"><i class="fas fa-smile-beam"></i> 情绪：</span>
+				<span id="status-emotion" class="status-value">--</span>
+			</div>
+			<div class="status-item">
+				<span class="status-label"><i class="fas fa-running"></i> 身体状态：</span>
+				<span id="status-condition" class="status-value">--</span>
+			</div>
+			<div class="status-item os-item">
+				<span class="status-label"><i class="fas fa-comment-dots"></i> 内心OS：</span>
+				<span id="status-os" class="status-value">--</span>
+			</div>
+			<div class="status-item">
+				<span class="status-label"><i class="fas fa-heart-pulse"></i> 心率：</span>
+				<span id="status-heart-rate" class="status-value">-- bpm</span>
+			</div>
+				<div class="status-item">
+				<span class="status-label"><i class="fas fa-heart"></i> 好感度：</span>
+				<span id="status-favorability" class="status-value">--</span>
+			</div>
+			<div class="status-item">
+				<span class="status-label"><i class="fas fa-wine-bottle"></i> 醋意指数：</span>
+				<div class="jealousy-bar-container">
+					<div id="jealousy-bar-fill" class="jealousy-bar-fill"></div>
+					<span id="jealousy-bar-text" class="jealousy-bar-text">0%</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	
+	<!-- 【修正后的 HTML】 -->
+	<div class="modal-mask" id="add-life-event-modal">
+		<div class="center-modal-content">
+			<div class="center-modal-title">添加大事件</div>
+			
+			<!-- 日期选择器 -->
+			<label class="form-label" style="font-size: 14px; color: #666; margin-bottom: 5px; margin-top: 10px;">事件日期</label>
+			<input type="date" id="add-life-event-date-input" class="form-input" style="padding: 8px 12px;">
+
+			<label class="form-label" style="font-size: 14px; color: #666; margin-bottom: 5px; margin-top: 15px;">事件简述</label>
+			<textarea id="add-life-event-input" class="form-textarea" style="height: 100px; margin-bottom: 15px;" placeholder="请简述发生的重大事件..."></textarea>
+			
+			<div class="center-modal-buttons">
+				<button class="modal-btn-secondary" id="cancel-add-life-event-btn">取消</button>
+				<button class="modal-btn-primary" id="confirm-add-life-event-btn">确认添加</button>
+			</div>
+		</div>
+	</div>
+	
+	<!-- ============================================================ -->
+	<!-- 【重构】底部功能面板 (点击+号弹出) -->
+	<!-- ============================================================ -->
+
+	<!-- 1. 隐藏的图片上传控件 (保持不变) -->
+	<input type="file" id="real-image-input" accept="image/*" style="display: none;">
+
+	<!-- 3. 虚拟图片描述弹窗 (保持不变，如果之前删了请补回来) -->
+	<div class="modal-mask" id="virtual-image-modal">
+		<div class="center-modal-content">
+			<div class="center-modal-title">填写图片描述</div>
+			<textarea id="virtual-image-input" class="form-textarea" style="height: 100px;" placeholder="描述一下图片内容..." ></textarea>
+			<div class="center-modal-buttons">
+				<button class="modal-btn-secondary" id="virtual-image-cancel">取消</button>
+				<button class="modal-btn-primary" id="virtual-image-confirm">发送</button>
+			</div>
+		</div>
+	</div>
+	<!-- 【新增】虚拟文件发送弹窗 -->
+	<div class="modal-mask" id="virtual-file-modal">
+		<div class="center-modal-content">
+			<div class="center-modal-title">发送文件(模拟)</div>
+			<div style="font-size: 12px; color: #999; margin-bottom: 10px;">
+				填入文件名、后缀及供AI阅读的文件内容描述。
+			</div>
+			
+			<div style="display: flex; gap: 10px; margin-bottom: 10px;">
+				<input type="text" id="virtual-file-name" class="form-input" style="flex: 2;" placeholder="文件名 (如: 年度总结)">
+				<input type="text" id="virtual-file-ext" class="form-input" style="flex: 1;" placeholder="后缀 (如: pdf)">
+			</div>
+			
+			<textarea id="virtual-file-desc" class="form-textarea" style="height: 80px;" placeholder="描述一下这篇文件里面的详细内容..."></textarea>
+			
+			<div class="center-modal-buttons">
+				<button class="modal-btn-secondary" id="virtual-file-cancel">取消</button>
+				<button class="modal-btn-primary" id="virtual-file-confirm">发送</button>
+			</div>
+		</div>
+	</div>
+	<!-- 1. 发送转账/红包弹窗 -->
+    <div class="modal-mask" id="send-payment-modal">
+        <div class="center-modal-content" style="background-color: #f5f5f5;">
+            <div class="center-modal-title" id="send-payment-title">发起转账</div>
+            <div style="background: #fff; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                <label style="font-size: 14px; color: #333; margin-bottom: 10px; display: block;">金额</label>
+                <div style="display: flex; align-items: center; font-size: 24px; border-bottom: 1px solid #eee; padding-bottom: 5px;">
+                    <span style="margin-right: 10px;">¥</span>
+                    <input type="number" id="send-payment-amount" placeholder="0.00" style="border: none; outline: none; font-size: 24px; width: 100%;">
+                </div>
+                <div style="font-size: 12px; color: #999; margin-top: 8px;">
+                    当前余额: ¥<span id="current-balance-display">500.00</span>
+                </div>
+            </div>
+            <input type="text" id="send-payment-desc" class="center-modal-input" placeholder="添加备注 (如：转账给你)" style="border: none; margin-bottom: 15px;">
+            <div class="center-modal-buttons">
+                <button class="modal-btn-secondary" id="cancel-payment-btn">取消</button>
+                <button class="modal-btn-primary" id="confirm-payment-btn" style="background-color: #07c160;">确定发送</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 接收转账/红包弹窗 (高度还原微信UI) -->
+    <div class="modal-mask" id="receive-payment-modal">
+        
+        <!-- 红包专属 UI (未拆开) -->
+        <div class="rp-modal-content" id="rp-ui-container" style="display:none;">
+            <div class="rp-close-btn" id="rp-close-btn"><i class="fas fa-times"></i></div>
+            <div class="rp-top-bg"></div>
+            <div class="rp-avatar" id="rp-sender-avatar"><i class="fas fa-user"></i></div>
+            <div class="rp-sender-name" id="rp-sender-name">发件人</div>
+            <div class="rp-desc" id="rp-desc">恭喜发财，大吉大利</div>
+            <div class="rp-open-btn" id="rp-open-btn">開</div>
+        </div>
+
+        <!-- 【新增】红包拆开后的详情 UI -->
+        <div class="rp-opened-content" id="rp-opened-container" style="display:none;">
+            <div class="rp-opened-close" id="rp-opened-close-btn"><i class="fas fa-chevron-left"></i></div>
+            <div class="rp-opened-top">
+                <div class="rp-opened-name" id="rp-opened-name">发件人</div>
+                <div class="rp-opened-desc" id="rp-opened-desc">恭喜发财，大吉大利</div>
+                <div class="rp-opened-avatar" id="rp-opened-avatar"><i class="fas fa-user"></i></div>
+            </div>
+            <div class="rp-opened-amount-box">
+                <span class="num" id="rp-opened-amount-val">0.00</span><span class="yuan">元</span>
+            </div>
+            <div class="rp-opened-footer">已存入零钱，可直接用于聊天支付</div>
+        </div>
+
+        <!-- 转账专属 UI (保持不变) -->
+        <div class="tf-modal-content" id="tf-ui-container" style="display:none;">
+            <div class="tf-icon"><i class="fas fa-check-circle"></i></div>
+            <div class="tf-title">确认收款</div>
+            <div class="tf-amount">¥ <span id="tf-amount">0.00</span></div>
+            <div class="tf-desc" id="tf-desc">转账备注</div>
+            <div class="tf-actions">
+                <button class="tf-btn-reject" id="tf-reject-btn">退还</button>
+                <button class="tf-btn-accept" id="tf-accept-btn">收下</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 3. 文件消息专属编辑弹窗 -->
+    <div class="modal-mask" id="edit-file-modal">
+        <div class="center-modal-content">
+            <div class="center-modal-title">编辑文件信息</div>
+            <div style="display: flex; gap: 10px; margin-bottom: 10px; margin-top: 10px;">
+                <input type="text" id="edit-file-name" class="form-input" style="flex: 2;" placeholder="文件名">
+                <input type="text" id="edit-file-ext" class="form-input" style="flex: 1;" placeholder="后缀(如pdf)">
+            </div>
+            <textarea id="edit-file-desc" class="form-textarea" style="height: 80px;" placeholder="文件内容描述..."></textarea>
+            <div class="center-modal-buttons">
+                <button class="modal-btn-secondary" id="cancel-edit-file-btn">取消</button>
+                <button class="modal-btn-primary" id="confirm-edit-file-btn">保存修改</button>
+            </div>
+        </div>
+    </div>
+	<!-- 【新增】礼物清单页面顶部栏 -->
+	<div class="top-bar" id="gift-list-top" style="display: none;">
+		<div class="top-bar-back" style="display: flex;">
+			<i class="fas fa-chevron-left"></i>
+		</div>
+		<div class="top-bar-title">礼物清单</div>
+		<button class="top-bar-right-btn" id="gift-list-save-btn">保存</button>
+	</div>
+
+	<!-- 【新增】礼物清单页面 -->
+	<div class="page" id="gift-list-page">
+		<div class="page-content" id="gift-list-container" style="display: flex; flex-direction: column; gap: 10px;">
+			<!-- JS 动态渲染 -->
+		</div>
+	</div>
+
+	<!-- 【新增】购买确认弹窗 -->
+	<div class="modal-mask" id="purchase-modal">
+		<div class="center-modal-content">
+			<div class="center-modal-title">订单确认</div>
+			<div style="text-align: center; font-size: 16px; font-weight: bold; margin: 10px 0;" id="purchase-item-name">商品名称</div>
+			<div style="font-size: 14px; color: #ff4d4f; text-align: center; margin-bottom: 15px;">单价: ¥<span id="purchase-item-price">0.00</span></div>
+			
+			<label class="form-label">选择接收对象 (可多选)：</label>
+			<div class="scroll-select-box" id="purchase-char-list" style="height: 150px; margin-bottom: 15px;">
+				<!-- JS动态渲染角色列表 -->
+			</div>
+			
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-top: 10px; border-top: 1px solid #eee;">
+				<span>总计费用:</span>
+				<span style="color: #ff4d4f; font-size: 18px; font-weight: bold;">¥<span id="purchase-total-price">0.00</span></span>
+			</div>
+			
+			<div class="center-modal-buttons">
+				<button class="modal-btn-secondary" id="purchase-cancel-btn">取消</button>
+				<button class="modal-btn-primary" id="purchase-confirm-btn" style="background-color: #fa9d3b;">确认付款</button>
+			</div>
+		</div>
+	</div>
+	<!-- 【新增】图片生成预览弹窗 (适配 iOS) -->
+	<div class="modal-mask" id="export-preview-modal" style="background: rgba(0,0,0,0.85); z-index: 9999;">
+		<div class="center-modal-content" style="background: transparent; box-shadow: none; width: 90%; max-width: 400px;">
+			<div style="color: #fff; text-align: center; margin-bottom: 10px; font-size: 14px;">
+				<i class="fas fa-check-circle" style="color: #07c160;"></i> 生成成功<br>请长按下方图片保存到相册
+			</div>
+			<img id="export-preview-img" style="width: 100%; border-radius: 8px; border: 2px solid #fff;">
+			<button id="close-preview-btn" style="margin-top: 15px; width: 100%; padding: 10px; background: #fff; color: #333; border: none; border-radius: 20px; font-weight: bold;">关闭</button>
+		</div>
+	</div>
+	<!-- ========== 修改点 3：分组提示列表 ========== -->
+    <datalist id="chat-group-datalist"></datalist>
+
+    <!-- 【新增】引入轻量级拖拽库 Sortable.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+	<!-- 【新增】引入 html2canvas 用于导出日记图片 -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
+    <!-- ============================================================ -->
+	<script src="static/js/localforage.js"></script>
+    <!-- 引用外部 JS（已将内联脚本拆分到 static/js/app.js） -->
+    <script src="static/js/app.js"></script>
+	 <!-- 【新增】注册 Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(registration => {
+              console.log('ServiceWorker 注册成功，作用域为: ', registration.scope);
+            })
+            .catch(err => {
+              console.log('ServiceWorker 注册失败: ', err);
+            });
+        });
+      }
+    </script>
+<!-- Cloudflare Pages Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "bfec363355dd44d98f625c745ba33b35"}'></script><!-- Cloudflare Pages Analytics --></body>
+</html>
